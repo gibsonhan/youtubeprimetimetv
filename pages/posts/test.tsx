@@ -1,25 +1,63 @@
 import Link from 'next/link';
-import { View, Text } from 'react-native';
-const Test = () => {
+import Script from 'next/script';
+import {
+    useEffect,
+    useState
+} from 'react';
+import { View } from 'react-native';
+
+//helpers
+import { isNotEmpty } from '../../utilities/isNotEmpty';
+import {
+    authenticate,
+    loadClient,
+    loadSubscription,
+    initYoutubeClient
+} from '../../utilities/youtubeHelper';
+
+const Test = (props: {}) => {
+    const [auth, setAuth] = useState({ })
+    const [subscription, setSubscription] = useState({ })
+
+    async function authAndLoadClient() {
+        let authData = { }
+        try {
+            authData = await authenticate()
+            setAuth(authData)
+            await loadClient()
+        }
+        catch (error) {
+            console.error('Authenticate and Load Client failed', authAndLoadClient)
+        }
+        setAuth(authData)
+    }
+
+    async function getSubscription() {
+        let list: any = await loadSubscription()
+        if (isNotEmpty(list)) {
+            setSubscription(list)
+        }
+    }
+
+    useEffect(() => {
+        console.log('checking data')
+    }, [auth, subscription])
+
     return (
         <View>
+            <Script
+                id="gapi"
+                src="https://apis.google.com/js/api.js"
+                strategy="beforeInteractive"
+                onLoad={() => { initYoutubeClient() }}
+            />
             <div className="container mx-auto px-4">
                 <Link href="/">
-                    <div>Home</div>
+                    <div>Home </div>
                 </Link>
-                <p className="text-xs ...">The quick brown fox ...</p>
-                <p className="text-sm ...">The quick brown fox ...</p>
-                <p className="text-base ...">The quick brown fox ...</p>
-                <p className="text-lg ...">The quick brown fox ...</p>
-                <p className="text-xl ...">The quick brown fox ...</p>
-                <p className="text-2xl ...">The quick brown fox ...</p>
-                <p className="text-3xl ...">The quick brown fox ...</p>
-                <p className="text-4xl ...">The quick brown fox ...</p>
-                <p className="text-5xl ...">The quick brown fox ...</p>
-                <p className="text-6xl ...">The quick brown fox ...</p>
-                <p className="text-7xl ...">The quick brown fox ...</p>
-                <p className="text-8xl ...">The quick brown fox ...</p>
-                <p className="text-9xl ...">The quick brown fox ...</p>
+                <button onClick={() => authAndLoadClient()}>Login</button>
+                <br />
+                <button onClick={() => getSubscription()}>Get My Subscriptions</button>
             </div>
         </View>
     )
