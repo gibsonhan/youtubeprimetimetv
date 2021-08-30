@@ -1,3 +1,5 @@
+import { Subscription } from "../ts/interface/youtubeHelper";
+
 //https://stackoverflow.com/questions/56457935/typescript-error-property-x-does-not-exist-on-type-window
 declare global {
     interface Window {
@@ -20,27 +22,33 @@ export async function authenticate() {
 }
 
 // Make sure the client is loaded and sign-in is complete before calling this method.
-export async function loadSubscription() {
-    let list = { }
+export async function loadSubscription(): Promise<Subscription> {
+    let data: any = { }
     let gapi = window.gapi
     try {
         //https://developers.google.com/youtube/v3/docs/subscriptions
         let subscriptions = gapi.client.youtube.subscriptions
-        list = await subscriptions.list({
+        let { result } = await subscriptions.list({
             "part": [
                 "contentDetails",
                 "id",
                 "snippet ",
-                "subscriberSnippet"
             ],
+            "maxResults": 50, //youtube allows maximum of 50 per page
             "mine": true,
-            "order": "unread"
+            "order": "relevance",
         })
+        data = {
+            "prevPageToken": result.prevPageToken || "",
+            "nextPageToken": result.nextPageToken || "",
+            "pageInfo": { ...result.pageInfo },
+            "items": result.items
+        }
     }
     catch (error) {
         console.error("Execute error", error);
     }
-    return list
+    return data
 }
 
 export async function loadClient() {

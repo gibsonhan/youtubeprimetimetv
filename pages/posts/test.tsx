@@ -7,7 +7,6 @@ import {
 import { View } from 'react-native';
 
 //helpers
-import { isEmpty } from '../../utilities/isEmpty';
 import { isNotEmpty } from '../../utilities/isNotEmpty';
 import {
     authenticate,
@@ -34,16 +33,14 @@ const Test = (props: {}) => {
     }
 
     async function getSubscription() {
-        let list = await loadSubscription()
+        let list: any = await loadSubscription()
         if (isNotEmpty(list)) {
             setSubscription(list)
         }
     }
 
-
     useEffect(() => {
-        console.log(auth)
-        console.log(typeof subscription, isEmpty(subscription), subscription)
+        console.log('checking data')
     }, [auth, subscription])
 
     return (
