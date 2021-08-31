@@ -5,9 +5,11 @@ import {
     useState
 } from 'react';
 import { View } from 'react-native';
+import SubscriptionIcon from '../../components/SubscriptionIcon';
 
 //helpers
 import { isNotEmpty } from '../../utilities/isNotEmpty';
+import { tempData } from '../../utilities/tempData';
 import {
     authenticate,
     loadClient,
@@ -17,7 +19,8 @@ import {
 
 const Test = (props: {}) => {
     const [auth, setAuth] = useState({ })
-    const [subscription, setSubscription] = useState({ })
+    const [first, setFirst] = useState({ })
+    const [subscription, setSubscription] = useState(tempData)
 
     async function authAndLoadClient() {
         let authData = { }
@@ -40,8 +43,9 @@ const Test = (props: {}) => {
     }
 
     useEffect(() => {
-        console.log('checking data')
-    }, [auth, subscription])
+        const subscriptionOne = subscription.items[0].snippet
+        setFirst(subscriptionOne)
+    }, [])
 
     return (
         <View>
@@ -58,6 +62,8 @@ const Test = (props: {}) => {
                 <button onClick={() => authAndLoadClient()}>Login</button>
                 <br />
                 <button onClick={() => getSubscription()}>Get My Subscriptions</button>
+
+                <SubscriptionIcon data={first} />
             </div>
         </View>
     )
