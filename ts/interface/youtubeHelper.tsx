@@ -8,4 +8,6 @@ export interface Subscription {
     prevPageToken: string
     pageInfo: PageInfo,
     items: {}
+    error?: string
 }
+

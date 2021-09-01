@@ -6,6 +6,8 @@ import {
 } from 'react';
 import { View } from 'react-native';
 import SubscriptionIcon from '../../components/SubscriptionIcon';
+import SubscriptionList from '../../components/SubscriptionList';
+import { Subscription } from '../../ts/interface/youtubeHelper';
 
 //helpers
 import { isNotEmpty } from '../../utilities/isNotEmpty';
@@ -14,13 +16,13 @@ import {
     authenticate,
     loadClient,
     loadSubscription,
-    initYoutubeClient
+    initYoutubeClient,
 } from '../../utilities/youtubeHelper';
 
 const Test = (props: {}) => {
     const [auth, setAuth] = useState({ })
     const [first, setFirst] = useState({ })
-    const [subscription, setSubscription] = useState(tempData)
+    const [subscription, setSubscription] = useState({ }) //remove tempData to test nextpage
 
     async function authAndLoadClient() {
         let authData = { }
@@ -35,17 +37,15 @@ const Test = (props: {}) => {
         setAuth(authData)
     }
 
-    async function getSubscription() {
-        let list: any = await loadSubscription()
-        if (isNotEmpty(list)) {
+    async function getSubscription(token: string = '') {
+        try {
+            let list: any = await loadSubscription(token)
             setSubscription(list)
         }
+        catch (error) {
+            console.error('Failed to get subscriptions', error)
+        }
     }
-
-    useEffect(() => {
-        const subscriptionOne = subscription.items[0].snippet
-        setFirst(subscriptionOne)
-    }, [])
 
     return (
         <View>
@@ -62,11 +62,14 @@ const Test = (props: {}) => {
                 <button onClick={() => authAndLoadClient()}>Login</button>
                 <br />
                 <button onClick={() => getSubscription()}>Get My Subscriptions</button>
-
-                <SubscriptionIcon data={first} />
+                {isNotEmpty(subscription) && <SubscriptionList getSubscription={getSubscription}{...subscription} />}
             </div>
         </View>
     )
 }
+
+//Next steps or at the end of the week type up. how to learn how to rate limit and shit
+//https://stackoverflow.com/questions/57522524/client-side-request-rate-limiting
+//'https://nordicapis.com/everything-you-need-to-know-about-api-rate-limiting/'
 
 export default Test

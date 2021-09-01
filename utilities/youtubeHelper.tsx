@@ -1,5 +1,5 @@
 import { Subscription } from "../ts/interface/youtubeHelper";
-
+import { isEmpty } from "./isEmpty";
 //https://stackoverflow.com/questions/56457935/typescript-error-property-x-does-not-exist-on-type-window
 declare global {
     interface Window {
@@ -22,7 +22,7 @@ export async function authenticate() {
 }
 
 // Make sure the client is loaded and sign-in is complete before calling this method.
-export async function loadSubscription(): Promise<Subscription> {
+export async function loadSubscription(pageToken?: string): Promise<Subscription> {
     let data: any = { }
     let gapi = window.gapi
     try {
@@ -39,10 +39,11 @@ export async function loadSubscription(): Promise<Subscription> {
             "order": "relevance",
         })
         data = {
-            "prevPageToken": result.prevPageToken || "",
             "nextPageToken": result.nextPageToken || "",
+            "prevPageToken": result.prevPageToken || "",
             "pageInfo": { ...result.pageInfo },
-            "items": result.items
+            "items": result.items,
+            "pageToken": pageToken || "",
         }
     }
     catch (error) {

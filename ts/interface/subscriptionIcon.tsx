@@ -1,23 +1,4 @@
-interface Url {
-    url: string
-}
+import { Snippet } from "./subscriptionList";
 
-interface ResourceId {
-    channelId: string
-    kind: string
-}
-
-export interface SubscriptionIcon {
-    data: {
-        channelId: string,
-        description: string,
-        publishedAt: string,
-        resourceId: ResourceId,
-        thumbnails: {
-            default: Url
-            medium: Url
-            high: Url
-        },
-        title: string,
-    }
+export interface SubscriptionIcon extends Snippet {
 }
