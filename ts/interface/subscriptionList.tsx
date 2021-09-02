@@ -1,4 +1,4 @@
-import { Token } from "../type/SubscriptonList";
+import { Token } from "../type/subscriptonList";
 
 interface ContentDetail {
     totalItemCount: number,

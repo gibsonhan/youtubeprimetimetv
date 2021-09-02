@@ -37,13 +37,13 @@ export async function loadSubscription(pageToken?: string): Promise<Subscription
             "maxResults": 50, //youtube allows maximum of 50 per page
             "mine": true,
             "order": "relevance",
+            "pageToken": pageToken || "",
         })
         data = {
             "nextPageToken": result.nextPageToken || "",
             "prevPageToken": result.prevPageToken || "",
             "pageInfo": { ...result.pageInfo },
             "items": result.items,
-            "pageToken": pageToken || "",
         }
     }
     catch (error) {

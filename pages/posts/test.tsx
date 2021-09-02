@@ -5,9 +5,7 @@ import {
     useState
 } from 'react';
 import { View } from 'react-native';
-import SubscriptionIcon from '../../components/SubscriptionIcon';
 import SubscriptionList from '../../components/SubscriptionList';
-import { Subscription } from '../../ts/interface/youtubeHelper';
 
 //helpers
 import { isNotEmpty } from '../../utilities/isNotEmpty';
@@ -21,7 +19,6 @@ import {
 
 const Test = (props: {}) => {
     const [auth, setAuth] = useState({ })
-    const [first, setFirst] = useState({ })
     const [subscription, setSubscription] = useState({ }) //remove tempData to test nextpage
 
     async function authAndLoadClient() {
@@ -46,6 +43,10 @@ const Test = (props: {}) => {
             console.error('Failed to get subscriptions', error)
         }
     }
+
+    useEffect(() => {
+        console.log('what is subscription list', subscription)
+    }, [subscription])
 
     return (
         <View>
