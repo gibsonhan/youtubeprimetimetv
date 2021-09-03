@@ -3,8 +3,8 @@ import { isEmpty } from "../utilities/isEmpty"
 import SubscriptionIcon from "./SubscriptionIcon"
 
 function SubscriptionList(props: SubscriptionListInteface) {
-    if (isEmpty(props)) {
-        return <div>Loading...</div>
+    if (isEmpty(props.items)) {
+        return <div className="invisible"></div>
     }
 
     let { items, nextPageToken, prevPageToken, pageInfo, getSubscription } = props

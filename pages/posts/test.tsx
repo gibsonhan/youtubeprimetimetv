@@ -5,6 +5,7 @@ import {
     useState
 } from 'react';
 import { View } from 'react-native';
+import PrimeTimeList from '../../components/PrimeTimeList';
 import SubscriptionList from '../../components/SubscriptionList';
 
 //helpers
@@ -17,7 +18,7 @@ import {
     initYoutubeClient,
 } from '../../utilities/youtubeHelper';
 
-const Test = (props: {}) => {
+const Test = () => {
     const [auth, setAuth] = useState({ })
     const [subscription, setSubscription] = useState({ }) //remove tempData to test nextpage
 
@@ -63,7 +64,8 @@ const Test = (props: {}) => {
                 <button onClick={() => authAndLoadClient()}>Login</button>
                 <br />
                 <button onClick={() => getSubscription()}>Get My Subscriptions</button>
-                {isNotEmpty(subscription) && <SubscriptionList getSubscription={getSubscription}{...subscription} />}
+                <SubscriptionList getSubscription={getSubscription}{...subscription} />
+                <PrimeTimeList />
             </div>
         </View>
     )
