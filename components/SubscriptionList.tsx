@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { SubscriptionList as SubscriptionListInteface } from "../ts/interface/subscriptionList"
 import { isEmpty } from "../utilities/isEmpty"
+import { isNotEmpty } from "../utilities/isNotEmpty"
+import PrimeTimeList from "./PrimeTimeList"
 import SubscriptionIcon from "./SubscriptionIcon"
 
 function SubscriptionList(props: SubscriptionListInteface) {
@@ -50,6 +52,7 @@ function SubscriptionList(props: SubscriptionListInteface) {
                 <button onClick={() => getSubscription(prevPageToken)}>Previous</button>
                 <button onClick={() => getSubscription(nextPageToken)}>Next</button>
             </div>
+            {isNotEmpty(list) && <PrimeTimeList list={list} />}
         </div>
     )
 }

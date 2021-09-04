@@ -48,11 +48,6 @@ const Test = () => {
     function selectSubscription() {
 
     }
-
-    useEffect(() => {
-        console.log('what is subscription list', subscription)
-    }, [subscription])
-
     return (
         <View>
             <Script
