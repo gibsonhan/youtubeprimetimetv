@@ -19,6 +19,8 @@ interface Item {
     snippet: Snippet
 }
 
+interface List { }
+
 interface ResourceId {
     channelId: string
     kind: string

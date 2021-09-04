@@ -3,7 +3,7 @@ import { Animated, PanResponder, View } from "react-native";
 
 function Draggable(props: any) {
     const [isDragging, setIsDragging] = useState(false)
-    const pan = new Animated.ValueXY()
+    const pan: any = new Animated.ValueXY()
 
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (evt, gestureState) => true, /// I need to read up on this

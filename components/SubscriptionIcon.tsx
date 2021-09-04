@@ -9,30 +9,55 @@ import Draggable from './gesture/Dragabble'
 function SubscriptionIcon(props: SubscriptionIconInterface) {
     const [isSelected, setIsSelected] = useState(false)
 
-    if (isEmpty(props)) {
-        return <div> Loading </div>
-    }
+    const {
+        channelId,
+        description,
+        title,
+        thumbnails,
+        resourceId,
+        select,
+        deselect,
+    }: any = props
 
-    let { channeldId, description, title, thumbnails }: any = props
-    let { high, medium } = thumbnails
+    const { high, medium } = thumbnails
     let defaultThumbnail = thumbnails.default
 
-    function handleSelect() {
-        setIsSelected(props => {
-            return !props
-        })
-    }
     const initStyle = "opacity-0"
     const hoverStyle = "hover:opacity-100 hover:bg-gray-400 hover:bg-opacity-50"
     const normalStyle = initStyle + " " + hoverStyle
     const selectedStyle = "opacity-100 bg-gray-400 bg-opacity-70"
+
+    function handleSelect() {
+        setIsSelected((state: boolean) => !state)
+    }
+
+    //handle the state of list
+    useEffect(() => {
+        const { channelId } = resourceId
+        const data = {
+            channelId,
+            description,
+            title,
+            url: medium.url,
+        }
+        if (isSelected) {
+            select(data)
+        }
+        else {
+            deselect(data)
+        }
+    }, [isSelected])
+
+    if (isEmpty(props)) {
+        return <div> Loading </div>
+    }
 
     return (
         <Pressable onPress={() => handleSelect()}>
             <div className="relative w-24 h-24 bg-gray-200">
                 <Image
                     src={medium.url}
-                    alt={title + `youtube channel id: ${channeldId} + description: ${description}`}
+                    alt={title + `youtube channel id: ${resourceId.channelId} + description: ${description}`}
                     width={100}
                     height={100}
                 />
