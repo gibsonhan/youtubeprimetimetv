@@ -19,11 +19,11 @@ import {
 } from '../../utilities/youtubeHelper';
 
 const Test = () => {
-    const [auth, setAuth] = useState({ })
-    const [subscription, setSubscription] = useState({ }) //remove tempData to test nextpage
+    const [auth, setAuth] = useState({})
+    const [subscription, setSubscription] = useState(tempData) //remove tempData to test nextpage
 
     async function authAndLoadClient() {
-        let authData = { }
+        let authData = {}
         try {
             authData = await authenticate()
             setAuth(authData)
@@ -43,6 +43,10 @@ const Test = () => {
         catch (error) {
             console.error('Failed to get subscriptions', error)
         }
+    }
+
+    function selectSubscription() {
+
     }
 
     useEffect(() => {

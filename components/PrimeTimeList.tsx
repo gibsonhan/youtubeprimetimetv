@@ -1,7 +1,7 @@
-
 function PrimeTimeList(props: any) {
     return (
-        <div>PrimeTime</div>
+        <div className="h-24 w-full bg-black">
+        </div>
     )
 }
 export default PrimeTimeList

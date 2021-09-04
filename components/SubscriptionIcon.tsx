@@ -1,10 +1,14 @@
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import { Pressable } from 'react-native'
+
 import { SubscriptionIcon as SubscriptionIconInterface } from "../ts/interface/subscriptionIcon"
 import { isEmpty } from "../utilities/isEmpty"
 import Draggable from './gesture/Dragabble'
 
 function SubscriptionIcon(props: SubscriptionIconInterface) {
+    const [isSelected, setIsSelected] = useState(false)
+
     if (isEmpty(props)) {
         return <div> Loading </div>
     }
@@ -13,9 +17,18 @@ function SubscriptionIcon(props: SubscriptionIconInterface) {
     let { high, medium } = thumbnails
     let defaultThumbnail = thumbnails.default
 
-    return (
+    function handleSelect() {
+        setIsSelected(props => {
+            return !props
+        })
+    }
+    const initStyle = "opacity-0"
+    const hoverStyle = "hover:opacity-100 hover:bg-gray-400 hover:bg-opacity-50"
+    const normalStyle = initStyle + " " + hoverStyle
+    const selectedStyle = "opacity-100 bg-gray-400 bg-opacity-70"
 
-        <Draggable>
+    return (
+        <Pressable onPress={() => handleSelect()}>
             <div className="relative w-24 h-24 bg-gray-200">
                 <Image
                     src={medium.url}
@@ -23,14 +36,13 @@ function SubscriptionIcon(props: SubscriptionIconInterface) {
                     width={100}
                     height={100}
                 />
-
-                <div className="opacity-0 absolute inset-0 hover:opacity-100 hover:bg-gray-400 hover:bg-opacity-50">
+                <div className={`absolute inset-0 ${isSelected ? selectedStyle : normalStyle}`}>
                     <div className="flex items-center justify-center h-full text-sm text-bold text-center">
                         {title}
                     </div>
                 </div>
             </div>
-        </Draggable>
+        </Pressable>
     )
 }
 
