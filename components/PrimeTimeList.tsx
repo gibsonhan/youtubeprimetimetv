@@ -1,21 +1,32 @@
 
 import Image from 'next/image'
 import { useEffect } from 'react'
+import { PrimeTimeList as PrimeTimeListInterface } from '../ts/interface/primeTimeList'
 import { isEmpty } from '../utilities/isEmpty'
 import { isNotEmpty } from '../utilities/isNotEmpty'
 
 
-function PrimeTimeList(props: any) {
-    const { list } = props
+function PrimeTimeList(props: PrimeTimeListInterface) {
+    const { list, handleReset } = props
+    function savePrimeTimeList() {
+        console.log('should save list')
+        //save should send a post request to postgres
+        //should reset all state from the primeTime List
+
+    }
 
     return (
-        <div className="h-24 w-full">
-            {isNotEmpty(list)
-                && list.map((item: any, index: number) => {
-                    return <PrimeTimeIcon key={index + item.channelId} {...item} />
-                })
-            }
-        </div>
+        <>
+            <div className="h-24 w-full">
+                {isNotEmpty(list)
+                    && list.map((item: any, index: number) => {
+                        return <PrimeTimeIcon key={index + item.channelId} {...item} />
+                    })
+                }
+            </div>
+            <button onClick={() => savePrimeTimeList()}> Save </button>
+            {isNotEmpty(list) && <button onClick={() => handleReset()}> Reset </button>}
+        </>
     )
 }
 

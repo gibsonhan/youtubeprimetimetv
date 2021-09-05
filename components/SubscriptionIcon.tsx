@@ -15,6 +15,7 @@ function SubscriptionIcon(props: SubscriptionIconInterface) {
         title,
         thumbnails,
         resourceId,
+        resetRef,
         select,
         deselect,
     }: any = props
@@ -31,7 +32,7 @@ function SubscriptionIcon(props: SubscriptionIconInterface) {
         setIsSelected((state: boolean) => !state)
     }
 
-    //handle the state of list
+    //handle the select/deselect state of list
     useEffect(() => {
         const { channelId } = resourceId
         const data = {
@@ -47,6 +48,13 @@ function SubscriptionIcon(props: SubscriptionIconInterface) {
             deselect(data)
         }
     }, [isSelected])
+
+    //handle reset of icon
+    useEffect(() => {
+        if (resetRef.current === true && isSelected) {
+            setIsSelected(false)
+        }
+    }, [resetRef])
 
     if (isEmpty(props)) {
         return <div> Loading </div>

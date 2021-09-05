@@ -9,7 +9,6 @@ import PrimeTimeList from '../../components/PrimeTimeList';
 import SubscriptionList from '../../components/SubscriptionList';
 
 //helpers
-import { isNotEmpty } from '../../utilities/isNotEmpty';
 import { tempData } from '../../utilities/tempData';
 import {
     authenticate,
@@ -45,9 +44,6 @@ const Test = () => {
         }
     }
 
-    function selectSubscription() {
-
-    }
     return (
         <View>
             <Script
