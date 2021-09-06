@@ -19,6 +19,8 @@ interface Item {
     snippet: Snippet
 }
 
+interface List { }
+
 interface ResourceId {
     channelId: string
     kind: string
@@ -50,4 +52,7 @@ interface Url {
 
 export interface SubscriptionList extends Subscription {
     getSubscription(token?: string): Promise<Subscription>
+    handleSelect: (id: any) => void
+    handleDeselect: (id: any) => void
+    resetRef: React.ForwardedRef<Boolean>
 }

@@ -5,10 +5,10 @@ import {
     useState
 } from 'react';
 import { View } from 'react-native';
+import PrimeTimeList from '../../components/PrimeTimeList';
 import SubscriptionList from '../../components/SubscriptionList';
 
 //helpers
-import { isNotEmpty } from '../../utilities/isNotEmpty';
 import { tempData } from '../../utilities/tempData';
 import {
     authenticate,
@@ -17,12 +17,12 @@ import {
     initYoutubeClient,
 } from '../../utilities/youtubeHelper';
 
-const Test = (props: {}) => {
-    const [auth, setAuth] = useState({ })
-    const [subscription, setSubscription] = useState({ }) //remove tempData to test nextpage
+const Test = () => {
+    const [auth, setAuth] = useState({})
+    const [subscription, setSubscription] = useState(tempData) //remove tempData to test nextpage
 
     async function authAndLoadClient() {
-        let authData = { }
+        let authData = {}
         try {
             authData = await authenticate()
             setAuth(authData)
@@ -44,10 +44,6 @@ const Test = (props: {}) => {
         }
     }
 
-    useEffect(() => {
-        console.log('what is subscription list', subscription)
-    }, [subscription])
-
     return (
         <View>
             <Script
@@ -63,7 +59,8 @@ const Test = (props: {}) => {
                 <button onClick={() => authAndLoadClient()}>Login</button>
                 <br />
                 <button onClick={() => getSubscription()}>Get My Subscriptions</button>
-                {isNotEmpty(subscription) && <SubscriptionList getSubscription={getSubscription}{...subscription} />}
+                <SubscriptionList getSubscription={getSubscription}{...subscription} />
+                <PrimeTimeList />
             </div>
         </View>
     )
