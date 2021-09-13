@@ -7,26 +7,15 @@ import { isNotEmpty } from '../utilities/isNotEmpty'
 
 
 function PrimeTimeList(props: PrimeTimeListInterface) {
-    const { list, handleReset } = props
-    function savePrimeTimeList() {
-        console.log('should save list')
-        //save should send a post request to postgres
-        //should reset all state from the primeTime List
-
-    }
-
+    const { list } = props
     return (
-        <>
-            <div className="h-24 w-full">
-                {isNotEmpty(list)
-                    && list.map((item: any, index: number) => {
-                        return <PrimeTimeIcon key={index + item.channelId} {...item} />
-                    })
-                }
-            </div>
-            <button onClick={() => savePrimeTimeList()}> Save </button>
-            {isNotEmpty(list) && <button onClick={() => handleReset()}> Reset </button>}
-        </>
+        <div className="h-24 w-full">
+            {isNotEmpty(list)
+                && list.map((item: any, index: number) => {
+                    return <PrimeTimeIcon key={index + item.channelId} {...item} />
+                })
+            }
+        </div>
     )
 }
 

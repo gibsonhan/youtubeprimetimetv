@@ -6,13 +6,13 @@
     "dev": "next dev",
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
-    "reset": "npx kill-port 3000",
+    "reset": "npx kill-port 3000 && yarn dev",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@types/react-native": "^0.64.13",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "next": "11.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
