@@ -5,7 +5,7 @@ const Home: NextPage = () => {
   return (
     <div className="bg-indigo-600 bg-opacity-100 ...">
       <Text>Hello</Text>
-      <Link href="/posts/test">
+      <Link href="/primetime">
         <Text>Test</Text>
       </Link>
       <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
