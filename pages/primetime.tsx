@@ -16,16 +16,15 @@ import {
     loadSubscription,
     initYoutubeClient,
 } from '@/utility/youtubeHelper'
-
-
+import PrimeTimeHome from '@/components/PrimeTimeHome';
 
 function PrimeTime(props: any) {
     const resetRef = useRef<Boolean>(false)
     const [auth, setAuth] = useState({})
     const [list, setList] = useState<any>([]) // remove the any later
     const [primeTimeId, setPrimeTimeId] = useState('')
-    const [subscriptions, setSubscriptions] = useState([]) //remove tempData to test nextpage
-
+    const [subscription, setSubscription] = useState()
+    const [primeTimeList, setPrimeTimeList] = useState()
     async function authAndLoadClient() {
         let authData = {}
         try {
@@ -42,7 +41,7 @@ function PrimeTime(props: any) {
     async function getSubscription(token: string = '') {
         try {
             let data: any = await loadSubscription(token)
-            setSubscriptions(data)
+            setSubscription(data)
         }
         catch (error) {
             console.error('Failed to get subscriptions', error)
@@ -95,7 +94,6 @@ function PrimeTime(props: any) {
         try {
             const response = await fetch('/api/primetime', resObject)
             const result = await response.json()
-            console.log(result)
             setPrimeTimeId(result.id)
         }
         catch (error) {
@@ -150,13 +148,12 @@ function PrimeTime(props: any) {
     }
 
     useEffect(() => {
-        const { data } = props
-        setSubscriptions(data)
-    }, [])
-
-    useEffect(() => {
-        console.log('what is primetimeId', primeTimeId)
-    }, [primeTimeId])
+        if (isEmpty(props.data)) {
+            return
+        }
+        setPrimeTimeList(props.data.primeTime)
+        setSubscription(props.data.subscription)
+    }, [props])
 
     return (
         <View>
@@ -168,12 +165,13 @@ function PrimeTime(props: any) {
             />
             <div className="container mx-auto px-4">
                 <Search />
+                {isNotEmpty(primeTimeList) && <PrimeTimeHome list={primeTimeList} />}
                 <SubscriptionList
                     getSubscription={getSubscription}
                     handleSelect={handleSelect}
                     handleDeselect={handleDeselect}
                     resetRef={resetRef}
-                    {...subscriptions}
+                    {...subscription}
                 />
                 {isNotEmpty(list) && <PrimeTimeList list={list} />}
             </div>
@@ -196,9 +194,13 @@ function Search() {
 export async function getStaticProps() {
     const res = await fetch('http://localhost:3000/api/tempData')
     const result = await res.json()
+
+    const res2 = await fetch('http://localhost:3000/api/primetime')
+    const result2 = await res2.json()
+
     return {
         props: {
-            data: { ...result.data }
+            data: { subscription: result.data || {}, primeTime: result2 }
         }
     }
 }

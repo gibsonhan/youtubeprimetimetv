@@ -1,10 +1,8 @@
 
 import Image from 'next/image'
-import { useEffect } from 'react'
 import { PrimeTimeList as PrimeTimeListInterface } from '../ts/interface/primeTimeList'
 import { isEmpty } from '../utilities/isEmpty'
 import { isNotEmpty } from '../utilities/isNotEmpty'
-
 
 function PrimeTimeList(props: PrimeTimeListInterface) {
     const { list } = props
@@ -20,8 +18,7 @@ function PrimeTimeList(props: PrimeTimeListInterface) {
 }
 
 function PrimeTimeIcon(props: any) {
-    const { channelId, description, title, url, } = props
-
+    const { channelId, description, title, url } = props
     if (isEmpty(props)) {
         return <div> Loading...</div>
     }
@@ -35,8 +32,5 @@ function PrimeTimeIcon(props: any) {
         />
     )
 }
-
-
-
 
 export default PrimeTimeList
