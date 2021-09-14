@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Script from 'next/script';
 import { useEffect, useRef, useState } from "react"
 import { View } from "react-native"
@@ -16,7 +15,7 @@ import {
     loadSubscription,
     initYoutubeClient,
 } from '@/utility/youtubeHelper'
-import PrimeTimeHome from '@/components/PrimeTimeHome';
+import PrimeTimeHome from '@/components/PrimeTimePreviewList';
 
 function PrimeTime(props: any) {
     const resetRef = useRef<Boolean>(false)
@@ -24,7 +23,6 @@ function PrimeTime(props: any) {
     const [list, setList] = useState<any>([]) // remove the any later
     const [primeTimeId, setPrimeTimeId] = useState('')
     const [subscription, setSubscription] = useState()
-    const [primeTimeList, setPrimeTimeList] = useState()
     async function authAndLoadClient() {
         let authData = {}
         try {
@@ -151,7 +149,6 @@ function PrimeTime(props: any) {
         if (isEmpty(props.data)) {
             return
         }
-        setPrimeTimeList(props.data.primeTime)
         setSubscription(props.data.subscription)
     }, [props])
 
@@ -165,7 +162,6 @@ function PrimeTime(props: any) {
             />
             <div className="container mx-auto px-4">
                 <Search />
-                {isNotEmpty(primeTimeList) && <PrimeTimeHome list={primeTimeList} />}
                 <SubscriptionList
                     getSubscription={getSubscription}
                     handleSelect={handleSelect}
@@ -195,12 +191,9 @@ export async function getStaticProps() {
     const res = await fetch('http://localhost:3000/api/tempData')
     const result = await res.json()
 
-    const res2 = await fetch('http://localhost:3000/api/primetime')
-    const result2 = await res2.json()
-
     return {
         props: {
-            data: { subscription: result.data || {}, primeTime: result2 }
+            data: { subscription: result.data }
         }
     }
 }
