@@ -4,12 +4,6 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 function Block(props: any) {
-    const router = useRouter()
-
-    useEffect(() => {
-        console.log('what is props', props)
-    }, [props])
-
     const { title, description, rank, subscriptions } = props.data
     return (
         <div>
@@ -23,6 +17,9 @@ function Block(props: any) {
                         <SubscriptionIcon key={index} {...ele} />
                     )
                 })}
+            </div>
+            <div>
+                <button onClick={() => console.log('hello')}>Edit</button>
             </div>
         </div>
     )

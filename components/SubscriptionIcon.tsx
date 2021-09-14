@@ -10,7 +10,7 @@ function SubscriptionIcon(props: SubscriptionIconInterface) {
     const [isSelected, setIsSelected] = useState(false)
 
     const {
-        channelId,
+        channelId, //remove
         description,
         title,
         thumbnails,
@@ -54,11 +54,7 @@ function SubscriptionIcon(props: SubscriptionIconInterface) {
         if (resetRef.current === true && isSelected) {
             setIsSelected(false)
         }
-    }, [resetRef])
-
-    if (isEmpty(props)) {
-        return <div> Loading </div>
-    }
+    }, [resetRef.current])
 
     return (
         <Pressable onPress={() => handleSelect()}>
