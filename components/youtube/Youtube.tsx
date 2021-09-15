@@ -1,5 +1,5 @@
 import Script from 'next/script'
-import { useEffect, useRef, useState } from 'react';
+import { useDebugValue, useEffect, useRef, useState } from 'react';
 //component
 import PrimeTimeList from '@/components/PrimeTimeList';
 import SubscriptionList from '@/components/SubscriptionList';
@@ -17,27 +17,17 @@ import { View } from 'react-native';
 
 function Youtube() {
     const resetRef = useRef<Boolean>(false)
+    const [isYTClientLoaded, setIsYTClientLoaded] = useState(false)
     const [auth, setAuth] = useState({})
     const [list, setList] = useState<any>([]) // remove the any later
     const [primeTimeId, setPrimeTimeId] = useState('')
     const [subscription, setSubscription] = useState()
 
-    async function authAndLoadClient() {
-        let authData = {}
-        try {
-            authData = await authenticate()
-            setAuth(authData)
-            await loadClient()
-        }
-        catch (error) {
-            console.error('Authenticate and Load Client failed', authAndLoadClient)
-        }
-        setAuth(authData)
-    }
-
     async function getSubscription(token: string = '') {
+        console.log('get subscription', token)
         try {
             let data: any = await loadSubscription(token)
+            console.log('what is data', data)
             setSubscription(data)
         }
         catch (error) {
@@ -45,9 +35,22 @@ function Youtube() {
         }
     }
 
+    function handleSelect(item: any) {
+        setList((state: any) => {
+            if (isEmpty(state)) {
+                return [item]
+            }
+            else {
+                return [...state, item]
+            }
+        })
+    }
+
     function handleDeselect(data: any) {
+        console.log('firing deselect')
         const { channelId } = data
         setList((state: any) => {
+            console.log('what is deselect state', state)
             if (isEmpty(state)) {
                 return []
             }
@@ -57,12 +60,8 @@ function Youtube() {
         })
     }
 
-    async function handleCreate() {
-        await authAndLoadClient()
-        await getSubscription()
-    }
-
     async function handleReset() {
+        console.log('firing')
         //https://dmitripavlutin.com/react-useref-guide/
         resetRef.current = true
         setList([])
@@ -135,16 +134,18 @@ function Youtube() {
         console.log('update', data)
     }
 
-    function handleSelect(item: any) {
-        setList((state: any) => {
-            if (isEmpty(state)) {
-                return [item]
-            }
-            else {
-                return [...state, item]
-            }
-        })
-    }
+    useEffect(() => {
+        if (!isYTClientLoaded) return
+        async function handleCreate() {
+            console.log(isYTClientLoaded)
+            await authenticate()
+            await loadClient()
+            await getSubscription()
+        }
+        setTimeout(() => {
+            handleCreate()
+        }, 1000)
+    }, [isYTClientLoaded])
 
     return (
         <View>
@@ -152,17 +153,21 @@ function Youtube() {
                 id="gapi"
                 src="https://apis.google.com/js/api.js"
                 strategy="beforeInteractive"
-                onLoad={() => { initYoutubeClient() }}
+                onLoad={async () => {
+                    console.log('loading youtube')
+                    await initYoutubeClient()
+                    setIsYTClientLoaded(true)
+                }}
             />
             <SubscriptionList
                 getSubscription={getSubscription}
                 handleSelect={handleSelect}
                 handleDeselect={handleDeselect}
+                selectedList={list}
                 resetRef={resetRef}
                 {...subscription}
             />
             {isNotEmpty(list) && <PrimeTimeList list={list} />}
-            {isEmpty(primeTimeId) && <button onClick={() => handleCreate()}>Create New Block</button>}
             {isEmpty(primeTimeId) && isNotEmpty(list) && <button onClick={() => handleSave()}> Save </button>}
             {isNotEmpty(primeTimeId) && isNotEmpty(list) && <button onClick={() => handleUpdate()}> Update </button>}
             {isNotEmpty(list) && <button onClick={() => handleReset()}> Reset </button>}

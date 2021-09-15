@@ -64,9 +64,9 @@ export async function loadClient() {
     }
 }
 
-export function initYoutubeClient() {
+export async function initYoutubeClient() {
     let gapi = window.gapi
-    gapi.load("client:auth2", {
+    await gapi.load("client:auth2", {
         callback: function () {
             gapi.auth2.init({
                 client_id: "486025064243-8qhej8fb46i3fiird267mn1nrf43753g.apps.googleusercontent.com"

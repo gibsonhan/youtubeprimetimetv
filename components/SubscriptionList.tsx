@@ -11,11 +11,21 @@ function SubscriptionList(props: SubscriptionListInteface) {
         getSubscription,
         handleDeselect,
         handleSelect,
+        selectedList,
         resetRef,
     } = props
 
     if (isEmpty(props.items)) {
         return <div className="invisible"></div>
+    }
+    function handleIsSelected(id: string) {
+        if (isEmpty(selectedList)) {
+            return false
+        }
+        const value = selectedList.some((ele: any) => {
+            return ele.channelId === id
+        })
+        return value
     }
 
     return (
@@ -23,13 +33,17 @@ function SubscriptionList(props: SubscriptionListInteface) {
             <div className="grid grid-cols-5 md:grid-cols-7 lg:grid-cols-10">
                 {
                     items.map((item, index) => {
+                        let id = item.snippet.resourceId.channelId
+                        let value = handleIsSelected(id)
                         return <SubscriptionIcon
                             key={index + item.snippet.title}
                             deselect={handleDeselect}
                             select={handleSelect}
                             resetRef={resetRef}
+                            hasBeenSelected={value}
                             {...item.snippet}
                         />
+
                     })
                 }
             </div>

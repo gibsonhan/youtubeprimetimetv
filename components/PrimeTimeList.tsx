@@ -9,8 +9,8 @@ function PrimeTimeList(props: PrimeTimeListInterface) {
     return (
         <div className="h-24 w-full">
             {isNotEmpty(list)
-                && list.map((item: any, index: number) => {
-                    return <PrimeTimeIcon key={index + item.channelId} {...item} />
+                && list.map((ele: any, index: number) => {
+                    return <PrimeTimeIcon key={index + ele.channelId} {...ele} />
                 })
             }
         </div>

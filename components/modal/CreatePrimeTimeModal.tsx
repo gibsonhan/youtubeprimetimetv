@@ -11,7 +11,7 @@ function CreatePrimeTimeModal() {
                 onRequestClose={() => setIsVisible(false)}
                 visible={isVisible}
             >
-                <div className="flex flex-col text center">
+                <div className="flex flex-col h-full text center">
                     <Youtube />
                     <button onClick={() => setIsVisible(false)}> Cancel </button>
                 </div>
