@@ -1,9 +1,15 @@
 import { Modal } from "react-native";
 import { useEffect, useState } from "react";
-import Youtube from "../youtube/Youtube";
+import Youtube from "@/components/youtube/Youtube";
+import Button from "@/components/button/Button";
 
 function CreatePrimeTimeModal() {
     const [isVisible, setIsVisible] = useState(false)
+
+    function handleIsVisible(bool: boolean) {
+        setIsVisible(bool)
+    }
+
     return (
         <>
             <Modal
@@ -13,10 +19,10 @@ function CreatePrimeTimeModal() {
             >
                 <div className="flex flex-col h-full text center">
                     <Youtube />
-                    <button onClick={() => setIsVisible(false)}> Cancel </button>
+                    <Button title={"Cancel"} isVisible={true} disable={false} handleClick={() => handleIsVisible(false)} />
                 </div>
             </Modal>
-            <button onClick={() => setIsVisible(true)}>Create New PrimeTime</button>
+            <Button title={"Create"} isVisible={true} disable={false} handleClick={() => handleIsVisible(true)} />
         </>
     )
 }

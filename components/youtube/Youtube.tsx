@@ -13,6 +13,7 @@ import {
     initYoutubeClient,
 } from '@/utility/youtubeHelper'
 import { View } from 'react-native';
+import Button from '../button/Button';
 
 
 function Youtube() {
@@ -24,10 +25,8 @@ function Youtube() {
     const [subscription, setSubscription] = useState()
 
     async function getSubscription(token: string = '') {
-        console.log('get subscription', token)
         try {
             let data: any = await loadSubscription(token)
-            console.log('what is data', data)
             setSubscription(data)
         }
         catch (error) {
@@ -61,7 +60,6 @@ function Youtube() {
     }
 
     async function handleReset() {
-        console.log('firing')
         //https://dmitripavlutin.com/react-useref-guide/
         resetRef.current = true
         setList([])
@@ -130,14 +128,11 @@ function Youtube() {
         catch (error) {
             console.error('Internal Server Error', error)
         }
-
-        console.log('update', data)
     }
 
     useEffect(() => {
         if (!isYTClientLoaded) return
         async function handleCreate() {
-            console.log(isYTClientLoaded)
             await authenticate()
             await loadClient()
             await getSubscription()
@@ -154,7 +149,7 @@ function Youtube() {
                 src="https://apis.google.com/js/api.js"
                 strategy="beforeInteractive"
                 onLoad={async () => {
-                    console.log('loading youtube')
+                    console.log('Loading Youtube Client')
                     await initYoutubeClient()
                     setIsYTClientLoaded(true)
                 }}
@@ -167,10 +162,25 @@ function Youtube() {
                 resetRef={resetRef}
                 {...subscription}
             />
-            {isNotEmpty(list) && <PrimeTimeList list={list} />}
-            {isEmpty(primeTimeId) && isNotEmpty(list) && <button onClick={() => handleSave()}> Save </button>}
-            {isNotEmpty(primeTimeId) && isNotEmpty(list) && <button onClick={() => handleUpdate()}> Update </button>}
-            {isNotEmpty(list) && <button onClick={() => handleReset()}> Reset </button>}
+            <PrimeTimeList list={list} />
+            <Button
+                title={'save'}
+                disable={false}
+                isVisible={isEmpty(primeTimeId) && isNotEmpty(list)}
+                handleClick={handleSave}
+            />
+            <Button
+                title={'update'}
+                disable={false}
+                isVisible={isNotEmpty(primeTimeId) && isNotEmpty(list)}
+                handleClick={handleUpdate}
+            />
+            <Button
+                title={'reset'}
+                disable={false}
+                isVisible={isEmpty(primeTimeId) && isNotEmpty(list)}
+                handleClick={handleReset}
+            />
         </View>
     )
 }

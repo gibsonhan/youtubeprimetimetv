@@ -6,10 +6,13 @@ import { isNotEmpty } from '../utilities/isNotEmpty'
 
 function PrimeTimeList(props: PrimeTimeListInterface) {
     const { list } = props
+    if (isEmpty(list)) {
+        return <>Loading...</>
+    }
     return (
         <div className="h-24 w-full">
-            {isNotEmpty(list)
-                && list.map((ele: any, index: number) => {
+            {
+                list.map((ele: any, index: number) => {
                     return <PrimeTimeIcon key={index + ele.channelId} {...ele} />
                 })
             }

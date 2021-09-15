@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { SubscriptionList as SubscriptionListInteface } from "../ts/interface/subscriptionList"
 import { isEmpty } from "../utilities/isEmpty"
+import Button from "./button/Button"
 import SubscriptionIcon from "./SubscriptionIcon"
 
 function SubscriptionList(props: SubscriptionListInteface) {
@@ -18,6 +19,10 @@ function SubscriptionList(props: SubscriptionListInteface) {
     if (isEmpty(props.items)) {
         return <div className="invisible"></div>
     }
+
+    //function returns value for hasBeenSelected.
+    //On reload of same page, if icon has been selected, return true
+    //This allows Subscription Icon Style to update correct style on rerender. 
     function handleIsSelected(id: string) {
         if (isEmpty(selectedList)) {
             return false
@@ -27,6 +32,9 @@ function SubscriptionList(props: SubscriptionListInteface) {
         })
         return value
     }
+
+    const handlePrevClick = () => getSubscription(prevPageToken)
+    const handleNextClick = () => getSubscription(nextPageToken)
 
     return (
         <div className="flex flex-col max-w-auto bg-blue-200">
@@ -48,8 +56,8 @@ function SubscriptionList(props: SubscriptionListInteface) {
                 }
             </div>
             <div className="flex flex-row justify-between">
-                <button onClick={() => getSubscription(prevPageToken)}>Previous</button>
-                <button onClick={() => getSubscription(nextPageToken)}>Next</button>
+                <Button title={'Previous'} disable={isEmpty(prevPageToken)} isVisible={true} handleClick={handlePrevClick} />
+                <Button title={'Next'} disable={false} isVisible={true} handleClick={handleNextClick} />
             </div>
         </div>
     )
