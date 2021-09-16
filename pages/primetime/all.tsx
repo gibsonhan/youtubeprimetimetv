@@ -7,7 +7,7 @@ import PrimeTimePreviewList from '@/components/primetime/PrimeTimePreviewList';
 import { isEmpty } from "@/utility/isEmpty";
 
 function All(props: any) {
-    const { primeTimes } = props.data.primeTimes
+    const primeTimes = props.data.primeTimes
 
     if (isEmpty(primeTimes)) {
         return <div>Loading...</div>

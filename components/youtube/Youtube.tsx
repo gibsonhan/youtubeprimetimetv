@@ -1,8 +1,10 @@
 import Script from 'next/script'
-import { useDebugValue, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { View } from 'react-native';
 //component
-import PrimeTimeList from '@/components/PrimeTimeList';
-import SubscriptionList from '@/components/SubscriptionList';
+import Button from '@/components/common/Button'
+import PrimeTimeCurrentList from '@/components/primetime/PrimeTimeCurrentList';
+import SubscriptionList from '@/components/subscription/SubscriptionList';
 //helper
 import { isEmpty } from '@/utility/isEmpty';
 import { isNotEmpty } from '@/utility/isNotEmpty';
@@ -12,11 +14,8 @@ import {
     loadSubscription,
     initYoutubeClient,
 } from '@/utility/youtubeHelper'
-import { View } from 'react-native';
-import Button from '../common/Button';
 
-
-function Youtube() {
+function Youtube(props: any) {
     const resetRef = useRef<Boolean>(false)
     const [isYTClientLoaded, setIsYTClientLoaded] = useState(false)
     const [auth, setAuth] = useState({})
@@ -129,6 +128,12 @@ function Youtube() {
     }
 
     useEffect(() => {
+        if (isNotEmpty(props.list)) {
+            setList(props.list)
+        }
+    }, [props.list])
+
+    useEffect(() => {
         if (!isYTClientLoaded) return
         async function handleCreate() {
             await authenticate()
@@ -160,7 +165,7 @@ function Youtube() {
                 resetRef={resetRef}
                 {...subscription}
             />
-            <PrimeTimeList list={list} />
+            <PrimeTimeCurrentList list={list} />
             <Button
                 title={'save'}
                 disable={false}

@@ -1,10 +1,9 @@
-
 import Image from 'next/image'
-import { PrimeTimeList as PrimeTimeListInterface } from '../ts/interface/primeTimeList'
+import { PrimeTimeList as PrimeTimeListInterface } from '../../ts/interface/primeTimeList'
 import { isEmpty } from '@/utility/isEmpty'
 
-function PrimeTimeList(props: PrimeTimeListInterface) {
-    const { list } = props
+function PrimeTimeCurrentList(props: PrimeTimeListInterface) {
+    const list = props.list
 
     if (isEmpty(list)) {
         return <div>Loading...</div>
@@ -36,4 +35,4 @@ function PrimeTimeIcon(props: any) {
     )
 }
 
-export default PrimeTimeList
+export default PrimeTimeCurrentList

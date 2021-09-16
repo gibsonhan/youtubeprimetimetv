@@ -3,9 +3,8 @@ import { useState } from "react";
 import Youtube from "@/components/youtube/Youtube";
 import Button from "@/components/common/Button";
 
-function CreatePrimeTimeModal() {
+function UpdatePrimeTimeModal(props: any) {
     const [isVisible, setIsVisible] = useState(false)
-
     function handleIsVisible(bool: boolean) {
         setIsVisible(bool)
     }
@@ -18,13 +17,23 @@ function CreatePrimeTimeModal() {
                 visible={isVisible}
             >
                 <div className="flex flex-col h-full text center">
-                    <Youtube />
-                    <Button title={"Cancel"} isVisible={true} disable={false} handleClick={() => handleIsVisible(false)} />
+                    <Youtube list={props.subscriptions} />
+                    <Button
+                        title={"Cancel"}
+                        isVisible={true}
+                        disable={false}
+                        handleClick={() => handleIsVisible(false)}
+                    />
                 </div>
             </Modal>
-            <Button title={"Create"} isVisible={true} disable={false} handleClick={() => handleIsVisible(true)} />
+            <Button
+                title={"Update PrimeTime"}
+                isVisible={true}
+                disable={false}
+                handleClick={() => handleIsVisible(true)}
+            />
         </>
     )
 }
 
-export default CreatePrimeTimeModal
+export default UpdatePrimeTimeModal

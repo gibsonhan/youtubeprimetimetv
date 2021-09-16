@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
 import PrimeTimeSubscriptionList, { default as SubscriptionIcon } from '@/components/primetime/PrimeTimeBlockSubscriptionList'
+import UpdatePrimeTimeModal from '@/components/modal/UpdatePrimeTimeModal'
 
 function PrimeTimeBlock(props: any) {
     const { title, description, rank, subscriptions } = props.data
@@ -11,12 +11,7 @@ function PrimeTimeBlock(props: any) {
             <Input title={'description'} type={'text'} value={description} />
             <Input title={'rank'} type={'text'} value={rank} />
             <PrimeTimeSubscriptionList subscriptions={subscriptions} />
-            <Button
-                title={'Edit PrimeTime'}
-                disable={false}
-                isVisible={true}
-                handleClick={() => console.log('hello world')}
-            />
+            <UpdatePrimeTimeModal subscriptions={subscriptions} />
             <Link href="/"> Home </Link>
         </div>
     )
