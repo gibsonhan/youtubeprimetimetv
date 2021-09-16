@@ -2,9 +2,9 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Pressable } from 'react-native'
 
-import { SubscriptionIcon as SubscriptionIconInterface } from "../ts/interface/subscriptionIcon"
-import { isEmpty } from "../utilities/isEmpty"
-import Draggable from './gesture/Dragabble'
+import { SubscriptionIcon as SubscriptionIconInterface } from "../../ts/interface/subscriptionIcon"
+import { isEmpty } from "../../utilities/isEmpty"
+import Draggable from '../gesture/Dragabble'
 
 function SubscriptionIcon(props: SubscriptionIconInterface) {
     const {

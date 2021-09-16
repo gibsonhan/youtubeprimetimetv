@@ -1,8 +1,8 @@
 import { useEffect } from "react"
 import { SubscriptionList as SubscriptionListInteface } from "../ts/interface/subscriptionList"
 import { isEmpty } from "../utilities/isEmpty"
-import Button from "./button/Button"
-import SubscriptionIcon from "./SubscriptionIcon"
+import Button from "./common/Button"
+import SubscriptionIcon from "./subscription/SubscriptionIcon"
 
 function SubscriptionList(props: SubscriptionListInteface) {
     let {

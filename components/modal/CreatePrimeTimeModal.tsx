@@ -1,7 +1,7 @@
 import { Modal } from "react-native";
 import { useEffect, useState } from "react";
 import Youtube from "@/components/youtube/Youtube";
-import Button from "@/components/button/Button";
+import Button from "@/components/common/Button";
 
 function CreatePrimeTimeModal() {
     const [isVisible, setIsVisible] = useState(false)

@@ -1,43 +1,24 @@
 import Link from 'next/link'
-import Image from 'next/image'
-import Button from '@/components/button/Button'
+import Button from '@/components/common/Button'
+import Input from '@/components/common/Input'
+import PrimeTimeSubscriptionList, { default as SubscriptionIcon } from '@/components/primetime/PrimeTimeBlockSubscriptionList'
 
-function Block(props: any) {
+function PrimeTimeBlock(props: any) {
     const { title, description, rank, subscriptions } = props.data
     return (
-        <div>
+        <div className="flex flex-col">
+            <Input title={'title'} type={'text'} value={title} />
+            <Input title={'description'} type={'text'} value={description} />
+            <Input title={'rank'} type={'text'} value={rank} />
+            <PrimeTimeSubscriptionList subscriptions={subscriptions} />
+            <Button
+                title={'Edit PrimeTime'}
+                disable={false}
+                isVisible={true}
+                handleClick={() => console.log('hello world')}
+            />
             <Link href="/"> Home </Link>
-            <div>{title}</div>
-            <div>{description}</div>
-            <div>{rank}</div>
-            <div className='flex flex-row'>
-                {subscriptions.map((ele: any, index: number) => {
-                    return (
-                        <SubscriptionIcon key={index} {...ele} />
-                    )
-                })}
-            </div>
-            <div>
-                <Button
-                    title={'edit'}
-                    disable={false}
-                    isVisible={true}
-                    handleClick={() => console.log('hello world')}
-                />
-            </div>
         </div>
-    )
-}
-
-function SubscriptionIcon(props: any) {
-    const { channelId, description, url, title } = props
-    return (
-        <Image
-            src={url}
-            alt={title + `youtube channel id: ${channelId} + description: ${description}`}
-            width={100}
-            height={100}
-        />
     )
 }
 
@@ -63,5 +44,5 @@ export async function getStaticProps({ params }: any) {
     }
 }
 
-export default Block
+export default PrimeTimeBlock
 

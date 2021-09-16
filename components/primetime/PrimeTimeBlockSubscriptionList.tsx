@@ -1,31 +1,25 @@
-
 import Image from 'next/image'
-import { PrimeTimeList as PrimeTimeListInterface } from '../ts/interface/primeTimeList'
 import { isEmpty } from '@/utility/isEmpty'
 
-function PrimeTimeList(props: PrimeTimeListInterface) {
-    const { list } = props
+function PrimeTimeBlockSubscriptionList(props: any) {
+    const list = props.subscriptions
 
     if (isEmpty(list)) {
         return <div>Loading...</div>
     }
     return (
-        <div className="h-24 w-full">
+        <div className='flex flex-row'>
             {
                 list.map((ele: any, index: number) => {
-                    return <PrimeTimeIcon key={index + ele.channelId} {...ele} />
+                    return (<SubscriptionIcon key={index} {...ele} />)
                 })
             }
         </div>
     )
 }
 
-function PrimeTimeIcon(props: any) {
-    const { channelId, description, title, url } = props
-
-    if (isEmpty(props)) {
-        return <div> Loading...</div>
-    }
+function SubscriptionIcon(props: any) {
+    const { channelId, description, url, title } = props
     return (
         <Image
             src={url}
@@ -36,4 +30,4 @@ function PrimeTimeIcon(props: any) {
     )
 }
 
-export default PrimeTimeList
+export default PrimeTimeBlockSubscriptionList

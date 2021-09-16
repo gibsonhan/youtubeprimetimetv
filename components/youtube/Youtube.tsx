@@ -13,7 +13,7 @@ import {
     initYoutubeClient,
 } from '@/utility/youtubeHelper'
 import { View } from 'react-native';
-import Button from '../button/Button';
+import Button from '../common/Button';
 
 
 function Youtube() {
@@ -46,10 +46,8 @@ function Youtube() {
     }
 
     function handleDeselect(data: any) {
-        console.log('firing deselect')
         const { channelId } = data
         setList((state: any) => {
-            console.log('what is deselect state', state)
             if (isEmpty(state)) {
                 return []
             }

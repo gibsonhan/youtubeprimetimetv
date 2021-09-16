@@ -1,23 +1,17 @@
-
-import Script from 'next/script'
 import { useEffect, useState } from "react"
-import { Modal, View } from 'react-native'
+import { View } from 'react-native'
 //components
-import PrimeTimePreviewList from '@/components/PrimeTimePreviewList';
-//helpers
-import { isNotEmpty } from "@/utility/isNotEmpty"
 import CreatePrimeTimeModal from '@/components/modal/CreatePrimeTimeModal';
+import PrimeTimePreviewList from '@/components/primetime/PrimeTimePreviewList';
+//helpers
+import { isEmpty } from "@/utility/isEmpty";
 
 function All(props: any) {
-    const [primeTimes, setPrimeTimes] = useState([])
+    const { primeTimes } = props.data.primeTimes
 
-    useEffect(() => {
-        const { data } = props
-        if (isNotEmpty(data)) {
-            setPrimeTimes(data.primeTimes)
-        }
-    }, [props])
-
+    if (isEmpty(primeTimes)) {
+        return <div>Loading...</div>
+    }
     return (
         <View>
             <PrimeTimePreviewList primeTimes={primeTimes} />
