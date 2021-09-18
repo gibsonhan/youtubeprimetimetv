@@ -6,10 +6,10 @@ function PrimeTimeCurrentList(props: PrimeTimeListInterface) {
     const list = props.list
 
     if (isEmpty(list)) {
-        return <div>Loading...</div>
+        return <div>Select your favorite youtubers</div>
     }
     return (
-        <div className="h-24 w-full">
+        <div className="flex flex-row flex-wrap justify-start">
             {
                 list.map((ele: any, index: number) => {
                     return <PrimeTimeIcon key={index + ele.channelId} {...ele} />
@@ -26,12 +26,14 @@ function PrimeTimeIcon(props: any) {
         return <div> Loading...</div>
     }
     return (
-        <Image
-            src={url}
-            alt={title + `youtube channel id: ${channelId} + description: ${description}`}
-            width={100}
-            height={100}
-        />
+        <div className="relative h-10 w-10 rounded-sm overflow-hidden">
+            <Image
+                src={url}
+                alt={title + `youtube channel id: ${channelId} + description: ${description}`}
+                layout="fill"
+                objectFit="cover"
+            />
+        </div>
     )
 }
 

@@ -9,7 +9,7 @@ function Button(props: any) {
         handleClick()
     }
 
-    const baseStyle = 'flex justify-center items-center h-12 w-28 text center'
+    const baseStyle = 'flex flex-col items-center justify-center h-12 w-48 min-w-min my-4 p-4 rounded-md'
     const activeStyle = 'bg-green-300'
     const disableStyle = 'bg-gray-300'
     const style = baseStyle + " " + `${disable ? disableStyle : activeStyle}`
@@ -18,7 +18,9 @@ function Button(props: any) {
     }
     return (
         <div className={style} onClick={handleOnClick}>
-            {title}
+            <div>
+                {title}
+            </div>
         </div>
     )
 }

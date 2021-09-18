@@ -38,7 +38,11 @@ function SubscriptionList(props: SubscriptionListInteface) {
 
     return (
         <div className="flex flex-col max-w-auto bg-blue-200">
-            <div className="grid grid-cols-5 md:grid-cols-7 lg:grid-cols-10">
+            <div className="flex flex-row justify-between">
+                <Button title={'Previous'} disable={isEmpty(prevPageToken)} isVisible={true} handleClick={handlePrevClick} />
+                <Button title={'Next'} disable={false} isVisible={true} handleClick={handleNextClick} />
+            </div>
+            <div className="grid grid-cols-5 md:grid-cols-7 lg:grid-cols-10 overflow-auto">
                 {
                     items.map((item, index) => {
                         let id = item.snippet.resourceId.channelId
@@ -54,10 +58,6 @@ function SubscriptionList(props: SubscriptionListInteface) {
 
                     })
                 }
-            </div>
-            <div className="flex flex-row justify-between">
-                <Button title={'Previous'} disable={isEmpty(prevPageToken)} isVisible={true} handleClick={handlePrevClick} />
-                <Button title={'Next'} disable={false} isVisible={true} handleClick={handleNextClick} />
             </div>
         </div>
     )

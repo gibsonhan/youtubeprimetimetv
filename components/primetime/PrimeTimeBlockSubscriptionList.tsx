@@ -8,7 +8,7 @@ function PrimeTimeBlockSubscriptionList(props: any) {
         return <div>Loading...</div>
     }
     return (
-        <div className='flex flex-row'>
+        <div className='flex flex-row flex-wrap justify-center'>
             {
                 list.map((ele: any, index: number) => {
                     return (<SubscriptionIcon key={index} {...ele} />)
@@ -21,12 +21,14 @@ function PrimeTimeBlockSubscriptionList(props: any) {
 function SubscriptionIcon(props: any) {
     const { channelId, description, url, title } = props
     return (
-        <Image
-            src={url}
-            alt={title + `youtube channel id: ${channelId} + description: ${description}`}
-            width={100}
-            height={100}
-        />
+        <div className="relative h-28 w-28 m-1 rounded-md overflow-hidden">
+            <Image
+                src={url}
+                alt={title + `youtube channel id: ${channelId} + description: ${description}`}
+                objectFit="cover"
+                layout="fill"
+            />
+        </div>
     )
 }
 

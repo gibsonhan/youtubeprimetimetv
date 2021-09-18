@@ -4,14 +4,16 @@ import PrimeTimeSubscriptionList, { default as SubscriptionIcon } from '@/compon
 import UpdatePrimeTimeModal from '@/components/modal/UpdatePrimeTimeModal'
 
 function PrimeTimeBlock(props: any) {
-    const { title, description, rank, subscriptions } = props.data
+    const { id, title, description, rank, subscriptions } = props.data
+    const numSubscription = subscriptions.length
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center h-auto my-4 overflow-auto">
             <Input title={'title'} type={'text'} value={title} />
             <Input title={'description'} type={'text'} value={description} />
             <Input title={'rank'} type={'text'} value={rank} />
+            <div>{`${numSubscription} in this block`}</div>
             <PrimeTimeSubscriptionList subscriptions={subscriptions} />
-            <UpdatePrimeTimeModal subscriptions={subscriptions} />
+            <UpdatePrimeTimeModal id={id} subscriptions={subscriptions} title={title} />
             <Link href="/"> Home </Link>
         </div>
     )

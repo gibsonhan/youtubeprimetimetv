@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  async redirects() {
+    return [{
+      source: '/',
+      destination: '/primetime/all',
+      permanent: true,
+    }]
+  },
   reactStrictMode: true,
   images: {
     domains: ['yt3.ggpht.com'],
@@ -13,7 +20,7 @@ module.exports = {
     }
 
     config.resolve.alias = {
-      ...(config.resolve.alias || { }),
+      ...(config.resolve.alias || {}),
       // Transform all direct `react-native` imports to `react-native-web`
       'react-native$': 'react-native-web',
     }

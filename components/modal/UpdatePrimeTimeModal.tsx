@@ -5,6 +5,7 @@ import Button from "@/components/common/Button";
 
 function UpdatePrimeTimeModal(props: any) {
     const [isVisible, setIsVisible] = useState(false)
+
     function handleIsVisible(bool: boolean) {
         setIsVisible(bool)
     }
@@ -12,18 +13,25 @@ function UpdatePrimeTimeModal(props: any) {
     return (
         <>
             <Modal
-                animationType={'slide'}
-                onRequestClose={() => setIsVisible(false)}
+                animationType='slide'
+                onRequestClose={() => handleIsVisible}
                 visible={isVisible}
+                presentationStyle='overFullScreen'
             >
-                <div className="flex flex-col h-full text center">
-                    <Youtube list={props.subscriptions} />
-                    <Button
-                        title={"Cancel"}
-                        isVisible={true}
-                        disable={false}
-                        handleClick={() => handleIsVisible(false)}
-                    />
+                <div className="flex flex-col h-auto justify-center items-center overflow-scroll">
+                    <div className='flex-none flex text-2xl m-8 items-center'>{props.title} </div>
+                    <div className='flex-1 overflow-auto'>
+                        <Youtube id={props.id} list={props.subscriptions} />
+                    </div>
+                    <div className='flex-none flex justify-end'>
+                        <Button
+                            title={"Cancel"}
+                            isVisible={true}
+                            disable={false}
+                            handleClick={() => handleIsVisible(false)}
+                        />
+
+                    </div>
                 </div>
             </Modal>
             <Button

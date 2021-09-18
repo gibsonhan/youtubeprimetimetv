@@ -1,6 +1,5 @@
 import Script from 'next/script'
 import { useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
 //component
 import Button from '@/components/common/Button'
 import PrimeTimeCurrentList from '@/components/primetime/PrimeTimeCurrentList';
@@ -104,10 +103,6 @@ function Youtube(props: any) {
         }
         let data: any = {
             id: primeTimeId,
-            title: 'fjoewajfoejawo',
-            description: 'afoiejwaofjeoiwj',
-            userId: '2joiej1odj3oij1243',
-            rank: 7,
             subscriptions: list,
         }
 
@@ -118,6 +113,7 @@ function Youtube(props: any) {
             },
             body: JSON.stringify(data)
         }
+
         try {
             const response = await fetch('/api/primetime', resObject)
             data = await response.json()
@@ -126,6 +122,10 @@ function Youtube(props: any) {
             console.error('Internal Server Error', error)
         }
     }
+
+    useEffect(() => {
+        setPrimeTimeId(props.id)
+    }, [props.id])
 
     useEffect(() => {
         if (isNotEmpty(props.list)) {
@@ -146,7 +146,7 @@ function Youtube(props: any) {
     }, [isYTClientLoaded])
 
     return (
-        <View>
+        <div className="flex flex-col items-center">
             <Script
                 id="gapi"
                 src="https://apis.google.com/js/api.js"
@@ -157,6 +157,13 @@ function Youtube(props: any) {
                     setIsYTClientLoaded(true)
                 }}
             />
+            <PrimeTimeCurrentList list={list} />
+            <Button
+                title={'update'}
+                disable={isEmpty(subscription)}
+                isVisible={isNotEmpty(primeTimeId) && isNotEmpty(list) && isNotEmpty(subscription)}
+                handleClick={handleUpdate}
+            />
             <SubscriptionList
                 getSubscription={getSubscription}
                 handleSelect={handleSelect}
@@ -165,7 +172,6 @@ function Youtube(props: any) {
                 resetRef={resetRef}
                 {...subscription}
             />
-            <PrimeTimeCurrentList list={list} />
             <Button
                 title={'save'}
                 disable={false}
@@ -173,18 +179,12 @@ function Youtube(props: any) {
                 handleClick={handleSave}
             />
             <Button
-                title={'update'}
-                disable={false}
-                isVisible={isNotEmpty(primeTimeId) && isNotEmpty(list)}
-                handleClick={handleUpdate}
-            />
-            <Button
                 title={'reset'}
                 disable={false}
                 isVisible={isEmpty(primeTimeId) && isNotEmpty(list)}
                 handleClick={handleReset}
             />
-        </View>
+        </div>
     )
 }
 
