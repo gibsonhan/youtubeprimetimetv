@@ -1,5 +1,4 @@
 import { Subscription } from "../ts/interface/youtubeHelper";
-import { isEmpty } from "./isEmpty";
 //https://stackoverflow.com/questions/56457935/typescript-error-property-x-does-not-exist-on-type-window
 declare global {
     interface Window {
@@ -8,7 +7,7 @@ declare global {
 }
 
 export async function authenticate() {
-    let auth = { }
+    let auth = {}
     let gapi = window.gapi
 
     try {
@@ -23,11 +22,11 @@ export async function authenticate() {
 
 // Make sure the client is loaded and sign-in is complete before calling this method.
 export async function loadSubscription(pageToken?: string): Promise<Subscription> {
-    let data: any = { }
+    let data: any = {}
     let gapi = window.gapi
     try {
         //https://developers.google.com/youtube/v3/docs/subscriptions
-        let subscriptions = gapi.client.youtube.subscriptions
+        let subscriptions = await gapi.client.youtube.subscriptions
         let { result } = await subscriptions.list({
             "part": [
                 "contentDetails",
@@ -56,19 +55,18 @@ export async function loadClient() {
     try {
         let gapi = window.gapi
         let client = gapi.client
-        client.setApiKey("AIzaSyD0IA4HnjdbmHGDl9_Q9fY0mlbTB_VzxRs");
+        await client.setApiKey("AIzaSyD0IA4HnjdbmHGDl9_Q9fY0mlbTB_VzxRs");
         await client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
         console.log("GAPI client loaded for API");
     }
     catch (error) {
         console.error("Error loading GAPI client for API", error);
     }
-    return loadClient
 }
 
-export function initYoutubeClient() {
+export async function initYoutubeClient() {
     let gapi = window.gapi
-    gapi.load("client:auth2", {
+    await gapi.load("client:auth2", {
         callback: function () {
             gapi.auth2.init({
                 client_id: "486025064243-8qhej8fb46i3fiird267mn1nrf43753g.apps.googleusercontent.com"

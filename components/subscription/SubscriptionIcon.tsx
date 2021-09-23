@@ -2,24 +2,24 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Pressable } from 'react-native'
 
-import { SubscriptionIcon as SubscriptionIconInterface } from "../ts/interface/subscriptionIcon"
-import { isEmpty } from "../utilities/isEmpty"
-import Draggable from './gesture/Dragabble'
+import { SubscriptionIcon as SubscriptionIconInterface } from "../../ts/interface/subscriptionIcon"
+import { isEmpty } from "../../utilities/isEmpty"
+import Draggable from '../gesture/Dragabble'
 
 function SubscriptionIcon(props: SubscriptionIconInterface) {
-    const [isSelected, setIsSelected] = useState(false)
-
     const {
-        channelId,
+        channelId, //remove
         description,
         title,
         thumbnails,
         resourceId,
         resetRef,
+        hasBeenSelected,
         select,
         deselect,
     }: any = props
 
+    const [isSelected, setIsSelected] = useState(hasBeenSelected)
     const { high, medium } = thumbnails
     let defaultThumbnail = thumbnails.default
 
@@ -29,11 +29,6 @@ function SubscriptionIcon(props: SubscriptionIconInterface) {
     const selectedStyle = "opacity-100 bg-gray-400 bg-opacity-70"
 
     function handleSelect() {
-        setIsSelected((state: boolean) => !state)
-    }
-
-    //handle the select/deselect state of list
-    useEffect(() => {
         const { channelId } = resourceId
         const data = {
             channelId,
@@ -42,23 +37,21 @@ function SubscriptionIcon(props: SubscriptionIconInterface) {
             url: medium.url,
         }
         if (isSelected) {
-            select(data)
+            deselect(data)
+            setIsSelected(false)
         }
         else {
-            deselect(data)
+            select(data)
+            setIsSelected(true)
         }
-    }, [isSelected])
+    }
 
     //handle reset of icon
     useEffect(() => {
         if (resetRef.current === true && isSelected) {
             setIsSelected(false)
         }
-    }, [resetRef])
-
-    if (isEmpty(props)) {
-        return <div> Loading </div>
-    }
+    }, [resetRef.current])
 
     return (
         <Pressable onPress={() => handleSelect()}>

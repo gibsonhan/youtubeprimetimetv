@@ -18,7 +18,6 @@ export default async function handler(req: any, res: any) {
         catch (error) {
             console.error('Internal Server Error', error)
         }
-
     }
 
     if (req.method === 'PUT') {
@@ -37,6 +36,17 @@ export default async function handler(req: any, res: any) {
         }
         catch (error) {
             console.error('Internal Server Error')
+        }
+    }
+
+    if (req.method === 'GET') {
+        try {
+            const response = await fetch(baseUrl)
+            const result = await response.json()
+            res.status(200).json(result)
+        }
+        catch (error) {
+            console.log('Internal Server Error')
         }
     }
 }
