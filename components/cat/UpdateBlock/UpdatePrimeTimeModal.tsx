@@ -1,13 +1,16 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal } from "react-native";
-import { useRouter } from 'next/router'
 //components
 import Button from "@/components/common/Button";
 import UpdateLayout from '@/components/cat/UpdateBlock/UpdateLayout'
 import Youtube from "@/components/youtube/Youtube";
+import PrimeTimeCurrentList from "@/components/primetime/PrimeTimeCurrentList";
+//helper
+import { isNotEmpty } from "@/utility/isNotEmpty";
 
 function UpdatePrimeTimeModal(props: any) {
-    const currSubRef = useRef([])
+    const resetRef = useRef<Boolean>(false)
+    const [mySublist, setMySubList] = useState<any>([])
     const {
         handleOnClose,
         id,
@@ -19,7 +22,7 @@ function UpdatePrimeTimeModal(props: any) {
     async function handleUpdate() {
         let data: any = {
             id,
-            subscriptions: currSubRef.current,
+            subscriptions: mySublist,
         }
 
         const resObject = {
@@ -40,6 +43,21 @@ function UpdatePrimeTimeModal(props: any) {
         handleOnClose()
     }
 
+    async function handleReset() {
+        //https://dmitripavlutin.com/react-useref-guide/
+        resetRef.current = true
+        setMySubList([])
+        setTimeout(() => {
+            resetRef.current = false
+        }, 0)
+    }
+
+    useEffect(() => {
+        if (isNotEmpty(props.subscriptions)) {
+            setMySubList(props.subscriptions)
+        }
+    }, [props.subscriptions])
+
     return (
         <Modal
             animationType='slide'
@@ -49,8 +67,22 @@ function UpdatePrimeTimeModal(props: any) {
         >
             <UpdateLayout
                 top={title}
-                main={<Youtube currSubRef={currSubRef} id={id} list={subscriptions} />}
-                bottom={<Bottom handleOnClose={handleOnClose} handleUpdate={handleUpdate} />}
+                currSubList={<PrimeTimeCurrentList
+                    list={mySublist}
+                    handleReset={() => handleReset()} />
+                }
+                main={
+                    <Youtube
+                        id={id}
+                        mySubList={mySublist}
+                        setMySubList={setMySubList}
+                        resetRef={resetRef} />
+                }
+                bottom={
+                    <Bottom
+                        handleOnClose={handleOnClose}
+                        handleUpdate={handleUpdate} />
+                }
             />
         </Modal>
     )

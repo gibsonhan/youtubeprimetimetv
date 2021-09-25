@@ -1,7 +1,4 @@
 import { Modal } from "react-native";
-//components
-import Button from "@/components/common/Button";
-import Youtube from "@/components/youtube/Youtube";
 
 function CreatePrimeTimeModal(props: any) {
     const { isVisible, handleOnClose } = props

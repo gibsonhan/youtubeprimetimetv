@@ -1,11 +1,11 @@
 function CreateLayout(props: any) {
     return (
         <div className="flex flex-col h-auto justify-center items-center overflow-scroll">
-            <div className='flex text-2xl m-8 items-center'>{props.top} </div>
-            <div className='flex-1 overflow-auto'>
+            <div className='flex-auto'>{props.mySubList}</div>
+            <div className='flex-grow overflow-auto'>
                 {props.main}
             </div>
-            <div className='flex w-full justify-evenly'>
+            <div className='flex-none flex w-full justify-evenly'>
                 {props.bottom}
             </div>
         </div>

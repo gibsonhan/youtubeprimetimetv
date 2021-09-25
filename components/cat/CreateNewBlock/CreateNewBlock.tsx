@@ -1,18 +1,26 @@
+import router from 'next/router';
 import { useRef, useState } from 'react'
+//layout
+import CreateLayout from '@/components/cat/CreateNewBlock/CreateLayout';
 //components
-import Button from '@/components/common/Button'
+import Button from '@/components/common/Button';
+import CreatePrimeTimeModal from '@/components/cat/CreateNewBlock/CreatePrimeTimeModal';
 import { default as FloatingCAT } from '@/components/cat/CreateNewBlock/FloatingButton';
-import CreatePrimeTimeModal from '@/components/cat/CreateNewBlock/CreatePrimeTimeModal'
+import PrimeTimeCurrentList from '@/components/primetime/PrimeTimeCurrentList';
 import Youtube from "@/components/youtube/Youtube";
 
 function CreateNewBlock(props: any) {
+    const resetRef = useRef<Boolean>(false)
+    const [mySublist, setMySubList] = useState<any>([])
     const [isVisible, setIsVisible] = useState(false)
-    const currSubRef = useRef([])
 
     async function handleSave() {
         let data: any = {
+            title: 'hello world',
+            description: 'fight king',
+            userId: '2312321',
             rank: 7,
-            subscriptions: currSubRef.current
+            subscriptions: mySublist
         }
 
         const resObject = {
@@ -25,11 +33,22 @@ function CreateNewBlock(props: any) {
         try {
             const response = await fetch('/api/primetime', resObject)
             const result = await response.json()
+            const route = `/primetime/${result.id}`
+            router.push(route)
         }
 
         catch (error) {
             console.error('Internal Server Error', error)
         }
+    }
+
+    async function handleReset() {
+        //https://dmitripavlutin.com/react-useref-guide/
+        resetRef.current = true
+        setMySubList([])
+        setTimeout(() => {
+            resetRef.current = false
+        }, 0)
     }
 
     return (
@@ -39,11 +58,19 @@ function CreateNewBlock(props: any) {
                 isVisible={isVisible}
                 handleOnClose={() => setIsVisible(false)}
             >
-                <Youtube currSubRef={currSubRef} />
-                <Bottom
-                    handleSave={() => handleSave}
-                    handleOnClose={() => setIsVisible(false)}
+                <CreateLayout
+                    mySubList={<PrimeTimeCurrentList list={mySublist} handleReset={() => handleReset()} />}
+                    main={
+                        <Youtube
+                            mySubList={mySublist}
+                            setMySubList={setMySubList}
+                            resetRef={resetRef}
+                        />
+                    }
+                    bottom={<Bottom handleSave={() => handleSave()} handleOnClose={() => setIsVisible(false)} />}
                 />
+
+
             </CreatePrimeTimeModal>
         </>
     )

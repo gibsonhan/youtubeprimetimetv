@@ -36,10 +36,10 @@ function SubscriptionList(props: SubscriptionListInterface) {
     const handleNextClick = () => getSubscription(nextPageToken)
 
     return (
-        <div className="flex flex-col max-w-auto bg-blue-200">
+        <>
             <FloatingButton title="<" type='left' disable={isEmpty(prevPageToken)} handleOnClick={handlePrevClick} />
             <FloatingButton title=">" type='right' disable={false} handleOnClick={handleNextClick} />
-            <div className="grid grid-cols-5 md:grid-cols-7 lg:grid-cols-10 overflow-scroll">
+            <div className="grid grid-cols-5 md:grid-cols-7 lg:grid-cols-10">
                 {
                     items.map((item, index) => {
                         let id = item.snippet.resourceId.channelId
@@ -57,7 +57,7 @@ function SubscriptionList(props: SubscriptionListInterface) {
                     })
                 }
             </div>
-        </div>
+        </>
     )
 }
 

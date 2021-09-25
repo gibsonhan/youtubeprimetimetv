@@ -1,12 +1,9 @@
 import Script from 'next/script'
 import { useEffect, useRef, useState } from 'react';
 //component
-import Button from '@/components/common/Button'
-import PrimeTimeCurrentList from '@/components/primetime/PrimeTimeCurrentList';
 import SubscriptionList from '@/components/subscription/SubscriptionList';
 //helper
 import { isEmpty } from '@/utility/isEmpty';
-import { isNotEmpty } from '@/utility/isNotEmpty';
 import {
     authenticate,
     loadClient,
@@ -15,12 +12,10 @@ import {
 } from '@/utility/youtubeHelper'
 
 function Youtube(props: any) {
-    const resetRef = useRef<Boolean>(false)
     const [isYTClientLoaded, setIsYTClientLoaded] = useState(false)
     const [auth, setAuth] = useState({})
-    const [mySublist, setMySubList] = useState<any>([]) // remove the any later
-    const [primeTimeId, setPrimeTimeId] = useState('')
     const [subscription, setSubscription] = useState()
+    const { mySubList, setMySubList } = props
 
     async function getSubscription(token: string = '') {
         try {
@@ -55,31 +50,6 @@ function Youtube(props: any) {
         })
     }
 
-    async function handleReset() {
-        //https://dmitripavlutin.com/react-useref-guide/
-        resetRef.current = true
-        setMySubList([])
-        setTimeout(() => {
-            resetRef.current = false
-        }, 0)
-    }
-
-    useEffect(() => {
-        setPrimeTimeId(props.id)
-    }, [props.id])
-
-    useEffect(() => {
-        if (isNotEmpty(props.list)) {
-            setMySubList(props.list)
-        }
-    }, [props.list])
-
-    useEffect(() => {
-        if (isNotEmpty(mySublist) && !!props.currSubRef) {
-            props.currSubRef.current = mySublist
-        }
-    }, [mySublist])
-
     useEffect(() => {
         if (!isYTClientLoaded) return
         async function handleCreate() {
@@ -93,7 +63,7 @@ function Youtube(props: any) {
     }, [isYTClientLoaded])
 
     return (
-        <div className="flex flex-col items-center">
+        <>
             <Script
                 id="gapi"
                 src="https://apis.google.com/js/api.js"
@@ -104,19 +74,15 @@ function Youtube(props: any) {
                     setIsYTClientLoaded(true)
                 }}
             />
-            <PrimeTimeCurrentList
-                list={mySublist}
-                handleReset={() => handleReset()}
-            />
             <SubscriptionList
                 getSubscription={getSubscription}
                 handleSelect={handleSelect}
                 handleDeselect={handleDeselect}
-                selectedList={mySublist}
-                resetRef={resetRef}
+                selectedList={mySubList}
+                resetRef={props.resetRef}
                 {...subscription}
             />
-        </div>
+        </>
     )
 }
 
