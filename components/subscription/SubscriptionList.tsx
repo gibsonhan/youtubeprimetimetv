@@ -37,10 +37,8 @@ function SubscriptionList(props: SubscriptionListInterface) {
 
     return (
         <div className="flex flex-col max-w-auto bg-blue-200">
-            <div className="flex flex-row justify-between">
-                <Button title={'Previous'} disable={isEmpty(prevPageToken)} isVisible={true} handleClick={handlePrevClick} />
-                <Button title={'Next'} disable={false} isVisible={true} handleClick={handleNextClick} />
-            </div>
+            <FloatingButton title="<" type='left' disable={isEmpty(prevPageToken)} handleOnClick={handlePrevClick} />
+            <FloatingButton title=">" type='right' disable={false} handleOnClick={handleNextClick} />
             <div className="grid grid-cols-5 md:grid-cols-7 lg:grid-cols-10 overflow-scroll">
                 {
                     items.map((item, index) => {
@@ -59,6 +57,33 @@ function SubscriptionList(props: SubscriptionListInterface) {
                     })
                 }
             </div>
+        </div>
+    )
+}
+
+function FloatingButton(props: any) {
+    const type = props.type === 'left' ? 'left-0' : 'right-0'
+    const position = 'flex flex-col fixed z-50 items-center justify-center' + ' ' + 'bottom-2/4' + ' ' + type
+    const height = 'h-12'
+    const width = 'w-12'
+    const color = props.disable ? 'bg-gray-300' : 'bg-yellow-300'
+    const opacity = 'opacity-70'
+    const shape = height + ' ' + width + ' ' + 'rounded-lg'
+
+    const handleOnClick = (e: any) => {
+        if (props.disable) {
+            return
+        }
+        e.preventDefault()
+        props.handleOnClick()
+    }
+
+    return (
+        <div
+            className={position + ' ' + shape + ' ' + color + ' ' + opacity}
+            onClick={handleOnClick}
+        >
+            {props.title}
         </div>
     )
 }
