@@ -64,35 +64,6 @@ function Youtube(props: any) {
         }, 0)
     }
 
-    async function handleSave() {
-        if (isEmpty(list)) {
-            return
-        }
-        let data: any = {
-            title: 'fjoewajfoejawo',
-            description: 'afoiejwaofjeoiwj',
-            userId: '2joiej1odj3oij1243',
-            rank: 7,
-            subscriptions: list,
-        }
-
-        const resObject = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }
-        try {
-            const response = await fetch('/api/primetime', resObject)
-            const result = await response.json()
-            setPrimeTimeId(result.id)
-        }
-        catch (error) {
-            console.error('Internal Server Error', error)
-        }
-    }
-
     useEffect(() => {
         setPrimeTimeId(props.id)
     }, [props.id])
@@ -104,7 +75,7 @@ function Youtube(props: any) {
     }, [props.list])
 
     useEffect(() => {
-        if (isNotEmpty(mySublist)) {
+        if (isNotEmpty(mySublist) && !!props.currSubRef) {
             props.currSubRef.current = mySublist
         }
     }, [mySublist])
@@ -133,7 +104,10 @@ function Youtube(props: any) {
                     setIsYTClientLoaded(true)
                 }}
             />
-            <PrimeTimeCurrentList list={mySublist} />
+            <PrimeTimeCurrentList
+                list={mySublist}
+                handleReset={() => handleReset()}
+            />
             <SubscriptionList
                 getSubscription={getSubscription}
                 handleSelect={handleSelect}
@@ -141,18 +115,6 @@ function Youtube(props: any) {
                 selectedList={mySublist}
                 resetRef={resetRef}
                 {...subscription}
-            />
-            <Button
-                title={'save'}
-                disable={false}
-                isVisible={isEmpty(primeTimeId) && isNotEmpty(mySublist)}
-                handleClick={handleSave}
-            />
-            <Button
-                title={'reset'}
-                disable={false}
-                isVisible={isEmpty(primeTimeId) && isNotEmpty(mySublist)}
-                handleClick={handleReset}
             />
         </div>
     )

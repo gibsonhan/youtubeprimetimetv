@@ -4,12 +4,12 @@ import Button from "@/components/common/Button";
 import Youtube from "@/components/youtube/Youtube";
 
 function CreatePrimeTimeModal(props: any) {
-    const { isVisible, handleIsVisible } = props
+    const { isVisible, handleOnClose } = props
 
     return (
         <Modal
             animationType={'slide'}
-            onRequestClose={() => handleIsVisible(false)}
+            onRequestClose={() => handleOnClose()}
             visible={isVisible}
         >
             <div className="flex flex-col h-full items-center overflow-scroll">

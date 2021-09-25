@@ -15,6 +15,7 @@ function PrimeTimeCurrentList(props: PrimeTimeListInterface) {
                     return <PrimeTimeIcon key={index + ele.channelId} {...ele} />
                 })
             }
+            <ResetIcon handleReset={() => props.handleReset()} />
         </div>
     )
 }
@@ -33,6 +34,14 @@ function PrimeTimeIcon(props: any) {
                 layout="fill"
                 objectFit="cover"
             />
+        </div>
+    )
+}
+
+function ResetIcon(props: any) {
+    return (
+        <div className="flex justify-center items-center h-10 w-10 rounded-sm bg-gray-200 text-sm" onClick={() => props.handleReset()}>
+            Reset
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import { Pressable } from 'react-native'
 import router from 'next/router'
+//components
 import PrimeTimePreviewIcon from '@/components/primetime/PrimeTimePreviewIcon'
 
 function PrimeTimePreviewBlock(props: any) {

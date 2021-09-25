@@ -1,10 +1,9 @@
-import { useEffect } from "react"
-import { SubscriptionList as SubscriptionListInteface } from "../../ts/interface/subscriptionList"
-import { isEmpty } from "../../utilities/isEmpty"
-import Button from "../common/Button"
+import { SubscriptionList as SubscriptionListInterface } from "@ts/interface/subscriptionList"
+import { isEmpty } from "@/utility/isEmpty"
+import Button from "@/components/common/Button"
 import SubscriptionIcon from "./SubscriptionIcon"
 
-function SubscriptionList(props: SubscriptionListInteface) {
+function SubscriptionList(props: SubscriptionListInterface) {
     let {
         items,
         nextPageToken,
@@ -42,20 +41,21 @@ function SubscriptionList(props: SubscriptionListInteface) {
                 <Button title={'Previous'} disable={isEmpty(prevPageToken)} isVisible={true} handleClick={handlePrevClick} />
                 <Button title={'Next'} disable={false} isVisible={true} handleClick={handleNextClick} />
             </div>
-            <div className="grid grid-cols-5 md:grid-cols-7 lg:grid-cols-10 overflow-auto">
+            <div className="grid grid-cols-5 md:grid-cols-7 lg:grid-cols-10 overflow-scroll">
                 {
                     items.map((item, index) => {
                         let id = item.snippet.resourceId.channelId
                         let value = handleIsSelected(id)
-                        return <SubscriptionIcon
-                            key={index + item.snippet.title}
-                            deselect={handleDeselect}
-                            select={handleSelect}
-                            resetRef={resetRef}
-                            hasBeenSelected={value}
-                            {...item.snippet}
-                        />
-
+                        return (
+                            <SubscriptionIcon
+                                key={index + item.snippet.title}
+                                deselect={handleDeselect}
+                                select={handleSelect}
+                                resetRef={resetRef}
+                                hasBeenSelected={value}
+                                {...item.snippet}
+                            />
+                        )
                     })
                 }
             </div>

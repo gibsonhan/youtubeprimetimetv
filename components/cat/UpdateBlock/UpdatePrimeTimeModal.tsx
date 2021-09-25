@@ -1,5 +1,7 @@
-import { createRef, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Modal } from "react-native";
+import { useRouter } from 'next/router'
+//components
 import Button from "@/components/common/Button";
 import UpdateLayout from '@/components/cat/UpdateBlock/UpdateLayout'
 import Youtube from "@/components/youtube/Youtube";
@@ -35,12 +37,13 @@ function UpdatePrimeTimeModal(props: any) {
         catch (error) {
             console.error('Internal Server Error', error)
         }
+        handleOnClose()
     }
 
     return (
         <Modal
             animationType='slide'
-            onRequestClose={() => handleOnClose}
+            onRequestClose={() => handleOnClose()}
             visible={isVisible}
             presentationStyle='overFullScreen'
         >
