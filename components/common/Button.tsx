@@ -1,6 +1,7 @@
 import { Button as ButtonInterface } from '@ts/interface/button'
+import React from 'react'
 
-function Button(props: ButtonInterface) {
+const Button = React.forwardRef((props: ButtonInterface, ref: any) => {
     const {
         disable,
         handleClick,
@@ -25,12 +26,12 @@ function Button(props: ButtonInterface) {
         return <></>
     }
     return (
-        <div className={style} onClick={handleOnClick}>
+        <div ref={ref} className={style} onClick={handleOnClick}>
             <div>
                 {title}
             </div>
         </div>
     )
-}
+})
 
 export default Button

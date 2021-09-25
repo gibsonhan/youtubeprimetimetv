@@ -14,7 +14,7 @@ function CreateNewBlock(props: any) {
 
     return (
         <>
-            <FloatingCAT handleCAT={(handleIsVisible(true)} />
+            <FloatingCAT handleCAT={() => handleIsVisible(true)} />
             <CreatePrimeTimeModal
                 isVisible={isVisible}
                 handleIsVisible={handleIsVisible}

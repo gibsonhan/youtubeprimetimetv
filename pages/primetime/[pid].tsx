@@ -1,11 +1,11 @@
-import Link from 'next/link'
 import Input from '@/components/common/Input'
-import PrimeTimeSubscriptionList, { default as SubscriptionIcon } from '@/components/primetime/PrimeTimeBlockSubscriptionList'
-import UpdatePrimeTimeModal from '@/components/modal/UpdatePrimeTimeModal'
+import PrimeTimeSubscriptionList from '@/components/primetime/PrimeTimeBlockSubscriptionList'
+import UpdateBlock from '@/components/cat/UpdateBlock/UpdateBlock'
 
 function PrimeTimeBlock(props: any) {
     const { id, title, description, rank, subscriptions } = props.data
     const numSubscription = subscriptions.length
+
     return (
         <div className="flex flex-col items-center h-auto my-4 overflow-auto">
             <Input title={'title'} type={'text'} value={title} />
@@ -13,8 +13,7 @@ function PrimeTimeBlock(props: any) {
             <Input title={'rank'} type={'text'} value={rank} />
             <div>{`${numSubscription} in this block`}</div>
             <PrimeTimeSubscriptionList subscriptions={subscriptions} />
-            <UpdatePrimeTimeModal id={id} subscriptions={subscriptions} title={title} />
-            <Link href="/"> Home </Link>
+            <UpdateBlock id={id} subscriptions={subscriptions} title={title} />
         </div>
     )
 }

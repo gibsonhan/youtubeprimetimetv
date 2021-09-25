@@ -18,7 +18,7 @@ function Youtube(props: any) {
     const resetRef = useRef<Boolean>(false)
     const [isYTClientLoaded, setIsYTClientLoaded] = useState(false)
     const [auth, setAuth] = useState({})
-    const [list, setList] = useState<any>([]) // remove the any later
+    const [mySublist, setMySubList] = useState<any>([]) // remove the any later
     const [primeTimeId, setPrimeTimeId] = useState('')
     const [subscription, setSubscription] = useState()
 
@@ -33,7 +33,7 @@ function Youtube(props: any) {
     }
 
     function handleSelect(item: any) {
-        setList((state: any) => {
+        setMySubList((state: any) => {
             if (isEmpty(state)) {
                 return [item]
             }
@@ -45,7 +45,7 @@ function Youtube(props: any) {
 
     function handleDeselect(data: any) {
         const { channelId } = data
-        setList((state: any) => {
+        setMySubList((state: any) => {
             if (isEmpty(state)) {
                 return []
             }
@@ -58,7 +58,7 @@ function Youtube(props: any) {
     async function handleReset() {
         //https://dmitripavlutin.com/react-useref-guide/
         resetRef.current = true
-        setList([])
+        setMySubList([])
         setTimeout(() => {
             resetRef.current = false
         }, 0)
@@ -93,45 +93,21 @@ function Youtube(props: any) {
         }
     }
 
-    async function handleUpdate() {
-        if (isEmpty(primeTimeId)) {
-            return
-        }
-
-        if (isEmpty(list)) {
-            return
-        }
-        let data: any = {
-            id: primeTimeId,
-            subscriptions: list,
-        }
-
-        const resObject = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }
-
-        try {
-            const response = await fetch('/api/primetime', resObject)
-            data = await response.json()
-        }
-        catch (error) {
-            console.error('Internal Server Error', error)
-        }
-    }
-
     useEffect(() => {
         setPrimeTimeId(props.id)
     }, [props.id])
 
     useEffect(() => {
         if (isNotEmpty(props.list)) {
-            setList(props.list)
+            setMySubList(props.list)
         }
     }, [props.list])
+
+    useEffect(() => {
+        if (isNotEmpty(mySublist)) {
+            props.currSubRef.current = mySublist
+        }
+    }, [mySublist])
 
     useEffect(() => {
         if (!isYTClientLoaded) return
@@ -157,31 +133,25 @@ function Youtube(props: any) {
                     setIsYTClientLoaded(true)
                 }}
             />
-            <PrimeTimeCurrentList list={list} />
-            <Button
-                title={'update'}
-                disable={isEmpty(subscription)}
-                isVisible={isNotEmpty(primeTimeId) && isNotEmpty(list) && isNotEmpty(subscription)}
-                handleClick={handleUpdate}
-            />
+            <PrimeTimeCurrentList list={mySublist} />
             <SubscriptionList
                 getSubscription={getSubscription}
                 handleSelect={handleSelect}
                 handleDeselect={handleDeselect}
-                selectedList={list}
+                selectedList={mySublist}
                 resetRef={resetRef}
                 {...subscription}
             />
             <Button
                 title={'save'}
                 disable={false}
-                isVisible={isEmpty(primeTimeId) && isNotEmpty(list)}
+                isVisible={isEmpty(primeTimeId) && isNotEmpty(mySublist)}
                 handleClick={handleSave}
             />
             <Button
                 title={'reset'}
                 disable={false}
-                isVisible={isEmpty(primeTimeId) && isNotEmpty(list)}
+                isVisible={isEmpty(primeTimeId) && isNotEmpty(mySublist)}
                 handleClick={handleReset}
             />
         </div>

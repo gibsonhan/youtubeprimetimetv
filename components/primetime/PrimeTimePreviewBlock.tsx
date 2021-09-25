@@ -29,7 +29,8 @@ function PrimeTimePreviewBlock(props: any) {
                             <PrimeTimePreviewIcon
                                 key={index + '_' + item.title}
                                 {...item}
-                            />)
+                            />
+                        )
                     })
                 }
             </div>

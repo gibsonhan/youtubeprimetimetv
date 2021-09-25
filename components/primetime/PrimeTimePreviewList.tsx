@@ -13,10 +13,11 @@ function PrimeTimePreviewList(props: any) {
             {
                 list.map((item: any, index: any) => {
                     const { id, title, subscriptions } = item
+                    const key = index + '_' + title + '_' + id
                     return (
-                        <Carousel>
+                        <Carousel key={key}>
                             <PrimeTimePreviewBlock
-                                key={index + '_' + title + '_' + id}
+                                key={key}
                                 id={id}
                                 subscriptions={subscriptions}
                             />
