@@ -1,7 +1,4 @@
-import { useEffect, useState } from "react"
-import { View } from 'react-native'
-//components
-import CreatePrimeTimeModal from '@/components/modal/CreatePrimeTimeModal';
+import CreateNewBlock from "@/components/cat/CreateNewBlock/CreateNewBlock";
 import PrimeTimePreviewList from '@/components/primetime/PrimeTimePreviewList';
 //helpers
 import { isEmpty } from "@/utility/isEmpty";
@@ -13,9 +10,9 @@ function All(props: any) {
         return <div>Loading...</div>
     }
     return (
-        <div className='flex flex-col items-center mb-4'>
+        <div className='flex flex-col items-center'>
             <PrimeTimePreviewList primeTimes={primeTimes} />
-            <CreatePrimeTimeModal />
+            <CreateNewBlock />
         </div>
     )
 }

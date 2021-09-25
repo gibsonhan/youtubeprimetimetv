@@ -1,5 +1,12 @@
-function Button(props: any) {
-    const { disable, handleClick, title, isVisible } = props
+import { Button as ButtonInterface } from '@ts/interface/button'
+
+function Button(props: ButtonInterface) {
+    const {
+        disable,
+        handleClick,
+        title,
+        isVisible,
+    } = props
 
     const handleOnClick = (e: any) => {
         e.preventDefault()
@@ -12,7 +19,8 @@ function Button(props: any) {
     const baseStyle = 'flex flex-col items-center justify-center h-12 w-48 min-w-min my-4 p-4 rounded-md'
     const activeStyle = 'bg-green-300'
     const disableStyle = 'bg-gray-300'
-    const style = baseStyle + " " + `${disable ? disableStyle : activeStyle}`
+    const style = baseStyle + ' ' + `${disable ? disableStyle : activeStyle}`
+
     if (!isVisible) {
         return <></>
     }

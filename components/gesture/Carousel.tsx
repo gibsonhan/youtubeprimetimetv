@@ -5,7 +5,7 @@ function Carousel(props: any) {
         <ScrollView
             horizontal={true}
             pagingEnabled={true}
-
+            showsHorizontalScrollIndicator={false}
         >
             {props.children}
         </ScrollView>
