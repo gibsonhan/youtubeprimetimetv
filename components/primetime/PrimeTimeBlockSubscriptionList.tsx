@@ -1,12 +1,8 @@
 import Image from 'next/image'
-import { isEmpty } from '@/utility/isEmpty'
 
 function PrimeTimeBlockSubscriptionList(props: any) {
     const list = props.subscriptions
 
-    if (isEmpty(list)) {
-        return <div>Loading...</div>
-    }
     return (
         <div className='flex flex-row flex-wrap justify-center'>
             {

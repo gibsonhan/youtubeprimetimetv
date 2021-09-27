@@ -1,21 +1,17 @@
 import Image from 'next/image'
 import { PrimeTimeList as PrimeTimeListInterface } from '../../ts/interface/primeTimeList'
 import { isEmpty } from '@/utility/isEmpty'
+import { isNotEmpty } from '@/utility/isNotEmpty'
 
 function PrimeTimeCurrentList(props: PrimeTimeListInterface) {
-    const list = props.list
-
-    if (isEmpty(list)) {
-        return <div>Select your favorite youtubers</div>
-    }
     return (
         <div className="flex flex-row flex-wrap justify-start">
             {
-                list.map((ele: any, index: number) => {
+                props.list.map((ele: any, index: number) => {
                     return <PrimeTimeIcon key={index + ele.channelId} {...ele} />
                 })
             }
-            <ResetIcon handleReset={() => props.handleReset()} />
+            {isNotEmpty(props.list) && <ResetIcon handleReset={() => props.handleReset()} />}
         </div>
     )
 }

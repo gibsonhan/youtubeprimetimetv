@@ -4,10 +4,6 @@ import Carousel from '@/components/gesture/Carousel'
 
 function PrimeTimePreviewList(props: any) {
     const list: [] = props.primeTimes
-
-    if (isEmpty(list)) {
-        return <div>Loading...</div>
-    }
     return (
         <div className="flex flex-col h-full max-w-auto bg-black">
             {

@@ -6,7 +6,7 @@
     "dev": "next dev",
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
-    "reset": "npx kill-port 3000 && yarn dev",
+    "reset:dev": "npx kill-port 3000 && yarn dev",
     "start": "next start",
     "lint": "next lint"
   },

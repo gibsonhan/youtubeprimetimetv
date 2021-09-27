@@ -2,17 +2,22 @@ import PrimeTimeSubscriptionList from '@/components/primetime/PrimeTimeBlockSubs
 import DeleteBlock from '@/components/cat/DeleteBlock/DeleteBlock'
 import UpdateBlock from '@/components/cat/UpdateSubscriptions/UpdateSubscriptions'
 import UpdateInput from '@/components/cat/UpdateInput/UpdateInput'
+import { useEffect } from 'react'
 
 function PrimeTimeBlock(props: any) {
-    const { id, title, description, rank, subscriptions } = props.data
+    const { id, title, description, rank, shared, subscriptions, tags } = props.data
     const numSubscription = subscriptions.length
 
     const inputTable = [
         { title: 'title', type: 'text', value: title },
         { title: 'description', type: 'text', value: description },
-        { title: 'tags', type: 'text', value: '#chill' },
+        { title: 'tags', type: 'text', value: tags },
         { title: 'rank', type: 'text', value: rank }
     ]
+
+    useEffect(() => {
+        console.log('what is props', props)
+    }, [props])
 
     return (
         <div className="flex flex-col items-center h-auto my-4 overflow-auto">

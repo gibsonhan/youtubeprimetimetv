@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import Input from "@/components/common/Input";
+import { formatTagsForClient, formatTagsForServer } from "@/utility/extractTag";
 
 function UpdateInput(props: any) {
+    const { id, title, value } = props
     const [defaultValue, setDefaultValue] = useState(props.value)
     const [inputValue, setInputValue] = useState(props.value)
 
@@ -11,14 +13,13 @@ function UpdateInput(props: any) {
     }
     //TODO: consider immer?
     async function handleUpdate() {
-        console.log(typeof defaultValue, typeof inputValue, defaultValue === inputValue)
         if (defaultValue === inputValue) {
             return
         }
 
         const data: any = {
-            id: props.id,
-            [props.title]: inputValue
+            id,
+            [title]: title === 'tags' ? formatTagsForServer(inputValue) : inputValue
         }
 
         const resObject = {
@@ -30,14 +31,22 @@ function UpdateInput(props: any) {
         }
 
         try {
-            const response = await fetch(`/api/primetime/${props.id}}`, resObject)
+            const response = await fetch(`/api/primetime/${id}}`, resObject)
             const result = await response.json()
-            setDefaultValue(result[props.title])
+            const value = title === 'tags' ? formatTagsForClient(result[title]) : title
+            setDefaultValue(value)
         }
         catch (error) {
             console.error('Internal Server Error', error)
         }
     }
+
+    useEffect(() => {
+        title === 'tags'
+            ? setInputValue(formatTagsForClient(inputValue))
+            : setInputValue(value)
+
+    }, [value])
 
     return (
         <Input

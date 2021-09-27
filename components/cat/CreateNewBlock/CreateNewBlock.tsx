@@ -11,15 +11,16 @@ import Youtube from "@/components/youtube/Youtube";
 
 function CreateNewBlock(props: any) {
     const resetRef = useRef<Boolean>(false)
-    const [mySublist, setMySubList] = useState<any>([])
     const [isVisible, setIsVisible] = useState(false)
+    const [mySublist, setMySubList] = useState<any>([])
 
     async function handleSave() {
         let data: any = {
-            title: 'hello world',
-            description: 'fight king',
-            userId: '2312321',
-            rank: 7,
+            title: 'Enter Title',
+            description: 'Enter Description',
+            tags: ['Create tags with', 'hashtag'],
+            shared: [],
+            rank: 999,
             subscriptions: mySublist
         }
 
