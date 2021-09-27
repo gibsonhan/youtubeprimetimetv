@@ -23,7 +23,6 @@ function UpdateSubscriptions(props: any) {
                 id={id}
                 isVisible={isVisible}
                 subscriptions={subscriptions}
-                title={title}
                 handleOnClose={() => handleIsVisible(false)}
             />
         </>

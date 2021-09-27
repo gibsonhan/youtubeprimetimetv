@@ -1,8 +1,5 @@
-import { useState } from "react"
-
 function Input(props: any) {
-    const { title, type, value } = props
-    const [inputValue, setInputValue] = useState(value)
+    const { title, type, inputValue, setInputValue, handleBlur, handleKeyPress } = props
 
     const handleOnChange = (e: any) => {
         e.preventDefault()
@@ -19,6 +16,8 @@ function Input(props: any) {
                 type={type}
                 value={inputValue}
                 onChange={handleOnChange}
+                onKeyPress={handleKeyPress}
+                onBlur={handleBlur}
             />
         </div>
     )

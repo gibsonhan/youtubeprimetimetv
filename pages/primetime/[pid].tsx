@@ -1,17 +1,26 @@
-import Input from '@/components/common/Input'
 import PrimeTimeSubscriptionList from '@/components/primetime/PrimeTimeBlockSubscriptionList'
-import UpdateBlock from '@/components/cat/UpdateSubscriptions/UpdateSubscriptions'
 import DeleteBlock from '@/components/cat/DeleteBlock/DeleteBlock'
+import UpdateBlock from '@/components/cat/UpdateSubscriptions/UpdateSubscriptions'
+import UpdateInput from '@/components/cat/UpdateInput/UpdateInput'
 
 function PrimeTimeBlock(props: any) {
     const { id, title, description, rank, subscriptions } = props.data
     const numSubscription = subscriptions.length
 
+    const inputTable = [
+        { title: 'title', type: 'text', value: title },
+        { title: 'description', type: 'text', value: description },
+        { title: 'tags', type: 'text', value: '#chill' },
+        { title: 'rank', type: 'text', value: rank }
+    ]
+
     return (
         <div className="flex flex-col items-center h-auto my-4 overflow-auto">
-            <Input title={'title'} type={'text'} value={title} />
-            <Input title={'description'} type={'text'} value={description} />
-            <Input title={'rank'} type={'text'} value={rank} />
+            {
+                inputTable.map((ele, index) => {
+                    return <UpdateInput id={id} key={index + ' ' + ele.title} {...ele} />
+                })
+            }
             <div>{`${numSubscription} in this block`}</div>
             <PrimeTimeSubscriptionList subscriptions={subscriptions} />
             <UpdateBlock id={id} subscriptions={subscriptions} title={title} />

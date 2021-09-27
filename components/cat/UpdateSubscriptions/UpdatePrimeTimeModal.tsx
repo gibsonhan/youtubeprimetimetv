@@ -16,7 +16,6 @@ function UpdatePrimeTimeModal(props: any) {
         id,
         isVisible,
         subscriptions,
-        title,
     } = props
 
     async function handleUpdate() {
@@ -67,7 +66,7 @@ function UpdatePrimeTimeModal(props: any) {
             presentationStyle='overFullScreen'
         >
             <UpdateLayout
-                top={title}
+                top={'Select Your Youtubers'}
                 currSubList={<PrimeTimeCurrentList
                     list={mySublist}
                     handleReset={() => handleReset()} />
