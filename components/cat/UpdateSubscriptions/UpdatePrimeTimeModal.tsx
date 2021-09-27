@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Modal } from "react-native";
 //components
 import Button from "@/components/common/Button";
-import UpdateLayout from '@/components/cat/UpdateBlock/UpdateLayout'
+import UpdateLayout from '@/components/cat/UpdateSubscriptions/UpdateLayout'
 import Youtube from "@/components/youtube/Youtube";
 import PrimeTimeCurrentList from "@/components/primetime/PrimeTimeCurrentList";
 //helper
@@ -34,8 +34,9 @@ function UpdatePrimeTimeModal(props: any) {
         }
 
         try {
-            const response = await fetch('/api/primetime', resObject)
+            const response = await fetch(`/api/primetime/${id}}`, resObject)
             data = await response.json()
+            console.log('Update', data)
         }
         catch (error) {
             console.error('Internal Server Error', error)
@@ -53,10 +54,10 @@ function UpdatePrimeTimeModal(props: any) {
     }
 
     useEffect(() => {
-        if (isNotEmpty(props.subscriptions)) {
-            setMySubList(props.subscriptions)
+        if (isNotEmpty(subscriptions)) {
+            setMySubList(subscriptions)
         }
-    }, [props.subscriptions])
+    }, [subscriptions])
 
     return (
         <Modal

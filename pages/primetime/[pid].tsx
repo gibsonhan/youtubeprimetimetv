@@ -1,6 +1,7 @@
 import Input from '@/components/common/Input'
 import PrimeTimeSubscriptionList from '@/components/primetime/PrimeTimeBlockSubscriptionList'
-import UpdateBlock from '@/components/cat/UpdateBlock/UpdateBlock'
+import UpdateBlock from '@/components/cat/UpdateSubscriptions/UpdateSubscriptions'
+import DeleteBlock from '@/components/cat/DeleteBlock/DeleteBlock'
 
 function PrimeTimeBlock(props: any) {
     const { id, title, description, rank, subscriptions } = props.data
@@ -14,6 +15,7 @@ function PrimeTimeBlock(props: any) {
             <div>{`${numSubscription} in this block`}</div>
             <PrimeTimeSubscriptionList subscriptions={subscriptions} />
             <UpdateBlock id={id} subscriptions={subscriptions} title={title} />
+            <DeleteBlock id={id} />
         </div>
     )
 }

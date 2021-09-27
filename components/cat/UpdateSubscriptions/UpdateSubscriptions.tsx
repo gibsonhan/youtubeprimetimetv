@@ -3,7 +3,7 @@ import { useState } from "react"
 import Button from "@/components/common/Button"
 import UpdatePrimeTimeModal from "./UpdatePrimeTimeModal"
 
-function UpdateBlock(props: any) {
+function UpdateSubscriptions(props: any) {
     const { id, subscriptions, title } = props
     const [isVisible, setIsVisible] = useState(false)
 
@@ -30,4 +30,4 @@ function UpdateBlock(props: any) {
     )
 }
 
-export default UpdateBlock
+export default UpdateSubscriptions

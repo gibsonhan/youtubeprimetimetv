@@ -1,6 +1,7 @@
 const baseUrl = 'http://localhost:3001/primetime'
 
 export default async function handler(req: any, res: any) {
+    //create a primetime
     if (req.method === 'POST') {
         let data;
         const reqObj = {
@@ -19,26 +20,7 @@ export default async function handler(req: any, res: any) {
             console.error('Internal Server Error', error)
         }
     }
-
-    if (req.method === 'PUT') {
-        const reqObj = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(req.body),
-        }
-        const url = baseUrl + `/${req.body.id}`
-        try {
-            const response = await fetch(url, reqObj)
-            const result = await response.json()
-            res.status(200).json(result)
-        }
-        catch (error) {
-            console.error('Internal Server Error')
-        }
-    }
-
+    //Get all primetime
     if (req.method === 'GET') {
         try {
             const response = await fetch(baseUrl)
