@@ -1,8 +1,10 @@
-import PrimeTimeSubscriptionList from '@/components/primetime/PrimeTimeBlockSubscriptionList'
-import DeleteBlock from '@/components/cat/DeleteBlock/DeleteBlock'
-import UpdateBlock from '@/components/cat/UpdateSubscriptions/UpdateSubscriptions'
-import UpdateInput from '@/components/cat/UpdateInput/UpdateInput'
 import { useEffect } from 'react'
+//components
+import DeleteBlock from '@/components/cat/DeleteBlock/DeleteBlock'
+import { default as Input } from '@/components/cat/UpdateInput/UpdateInput'
+import { default as InputTag } from '@/components/cat/UpdateInput/UpdateInputTag'
+import UpdateBlock from '@/components/cat/UpdateSubscriptions/UpdateSubscriptions'
+import { default as CurrentSubscriptionList } from '@/components/primetime/PrimeTimeBlockSubscriptionList'
 
 function PrimeTimeBlock(props: any) {
     const { id, title, description, rank, shared, subscriptions, tags } = props.data
@@ -23,11 +25,15 @@ function PrimeTimeBlock(props: any) {
         <div className="flex flex-col items-center h-auto my-4 overflow-auto">
             {
                 inputTable.map((ele, index) => {
-                    return <UpdateInput id={id} key={index + ' ' + ele.title} {...ele} />
+                    const { title } = ele
+                    return (title === 'tags')
+                        ? <InputTag key={index} id={id} {...ele} />
+                        : <Input key={index} id={id} {...ele} />
+
                 })
             }
             <div>{`${numSubscription} in this block`}</div>
-            <PrimeTimeSubscriptionList subscriptions={subscriptions} />
+            <CurrentSubscriptionList subscriptions={subscriptions} />
             <UpdateBlock id={id} subscriptions={subscriptions} title={title} />
             <DeleteBlock id={id} />
         </div>

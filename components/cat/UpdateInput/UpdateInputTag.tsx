@@ -2,12 +2,13 @@ import { useEffect, useState } from "react"
 //components
 import Input from "@/components/common/Input";
 //helper
+import { formatTagsForClient, formatTagsForServer } from "@/utility/extractTag";
 import { isNotEmpty } from "@/utility/isNotEmpty";
 
-function UpdateInput(props: any) {
+function UpdateInputTag(props: any) {
     const { id, title, value } = props
-    const [defaultValue, setDefaultValue] = useState(props.value)
-    const [inputValue, setInputValue] = useState(props.value)
+    const [defaultValue, setDefaultValue] = useState(value)
+    const [inputValue, setInputValue] = useState(value)
 
     const handleBlur = async (e: any) => await handleUpdate()
     const handleKeyPress = async (e: any) => {
@@ -21,7 +22,7 @@ function UpdateInput(props: any) {
 
         const data: any = {
             id,
-            [title]: inputValue
+            [title]: formatTagsForServer(inputValue)
         }
 
         const resObject = {
@@ -35,16 +36,23 @@ function UpdateInput(props: any) {
         try {
             const response = await fetch(`/api/primetime/${id}}`, resObject)
             const result = await response.json()
-            setDefaultValue(result[title])
+            const tagsToString = formatTagsForClient(result[title])
+            setDefaultValue(tagsToString)
+            setInputValue(tagsToString)
         }
         catch (error) {
             console.error('Internal Server Error', error)
         }
     }
 
+    //onLoad set states
     useEffect(() => {
-        if (isNotEmpty(value)) setInputValue(value)
-    }, [value])
+        if (isNotEmpty(value)) {
+            const tagsToString = formatTagsForClient(value)
+            setInputValue(tagsToString)
+            setDefaultValue(tagsToString)
+        }
+    }, [])
 
     return (
         <Input
@@ -57,4 +65,4 @@ function UpdateInput(props: any) {
     )
 }
 
-export default UpdateInput
+export default UpdateInputTag
