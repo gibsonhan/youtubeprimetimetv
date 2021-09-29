@@ -14,6 +14,11 @@ function CreateNewBlock(props: any) {
     const [isVisible, setIsVisible] = useState(false)
     const [mySublist, setMySubList] = useState<any>([])
 
+    function handleDeselect(id: string) {
+        setMySubList((state: any) => state.filter((ele: any) => ele.channelId !== id)
+        )
+    }
+
     async function handleSave() {
         let data: any = {
             title: 'Enter Title',
@@ -60,7 +65,12 @@ function CreateNewBlock(props: any) {
                 handleOnClose={() => setIsVisible(false)}
             >
                 <CreateLayout
-                    mySubList={<PrimeTimeCurrentList list={mySublist} handleReset={() => handleReset()} />}
+                    mySubList={
+                        <PrimeTimeCurrentList
+                            list={mySublist}
+                            handleDeselect={handleDeselect}
+                            handleReset={() => handleReset()}
+                        />}
                     main={
                         <Youtube
                             mySubList={mySublist}

@@ -18,6 +18,10 @@ function UpdatePrimeTimeModal(props: any) {
         subscriptions,
     } = props
 
+    function handleDeselect(id: string) {
+        setMySubList((state: any) => state.filter((ele: any) => ele.channelId !== id))
+    }
+
     async function handleUpdate() {
         let data: any = {
             id,
@@ -52,10 +56,10 @@ function UpdatePrimeTimeModal(props: any) {
         }, 0)
     }
 
+
+
     useEffect(() => {
-        if (isNotEmpty(subscriptions)) {
-            setMySubList(subscriptions)
-        }
+        if (isNotEmpty(subscriptions)) setMySubList(subscriptions)
     }, [subscriptions])
 
     return (
@@ -67,9 +71,12 @@ function UpdatePrimeTimeModal(props: any) {
         >
             <UpdateLayout
                 top={'Select Your Youtubers'}
-                currSubList={<PrimeTimeCurrentList
-                    list={mySublist}
-                    handleReset={() => handleReset()} />
+                currSubList={
+                    <PrimeTimeCurrentList
+                        list={mySublist}
+                        handleDeselect={handleDeselect}
+                        handleReset={() => handleReset()}
+                    />
                 }
                 main={
                     <Youtube

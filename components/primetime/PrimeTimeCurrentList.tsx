@@ -7,26 +7,28 @@ import { isEmpty } from '@/utility/isEmpty'
 import { isNotEmpty } from '@/utility/isNotEmpty'
 
 function PrimeTimeCurrentList(props: PrimeTimeListInterface) {
+    const { handleDeselect, list, handleReset } = props
     return (
         <div className="flex flex-row flex-wrap justify-start">
             {
-                props.list.map((ele: any, index: number) => {
-                    return <PrimeTimeIcon key={index + ele.channelId} {...ele} />
+                list.map((ele: any, index: number) => {
+                    return <PrimeTimeIcon key={index} handleDeselect={handleDeselect} {...ele} />
                 })
             }
-            {isNotEmpty(props.list) && <ResetIcon handleReset={() => props.handleReset()} />}
+            {isNotEmpty(list) && <ResetIcon handleReset={() => handleReset()} />}
         </div>
     )
 }
 
 function PrimeTimeIcon(props: any) {
-    const { channelId, description, title, url } = props
+    const { channelId, description, handleDeselect, title, url } = props
 
     if (isEmpty(props)) {
         return <div> Loading...</div>
     }
+
     return (
-        <div className="relative h-10 w-10 rounded-sm overflow-hidden">
+        <div className="relative h-10 w-10 rounded-sm overflow-hidden" onClick={() => handleDeselect(channelId)}>
             <Image
                 src={url}
                 alt={title + `youtube channel id: ${channelId} + description: ${description}`}
