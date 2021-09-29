@@ -25,6 +25,9 @@
       "@/gesture/*": [
         "gesture/*"
       ],
+      "@/layout/*": [
+        "components/layout/*"
+      ],
       "@/utility/*": [
         "utilities/*"
       ],
