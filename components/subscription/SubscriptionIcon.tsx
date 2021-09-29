@@ -1,14 +1,11 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Pressable } from 'react-native'
-
-import { SubscriptionIcon as SubscriptionIconInterface } from "../../ts/interface/subscriptionIcon"
-import { isEmpty } from "../../utilities/isEmpty"
-import Draggable from '../gesture/Dragabble'
+//ts
+import { SubscriptionIcon as SubscriptionIconInterface } from "@ts/interface/subscriptionIcon"
 
 function SubscriptionIcon(props: SubscriptionIconInterface) {
     const {
-        channelId, //remove
         description,
         title,
         thumbnails,
@@ -25,7 +22,7 @@ function SubscriptionIcon(props: SubscriptionIconInterface) {
 
     const initStyle = "opacity-0"
     const hoverStyle = "hover:opacity-100 hover:bg-gray-400 hover:bg-opacity-50"
-    const normalStyle = initStyle + " " + hoverStyle
+    const normalStyle = `${initStyle} ${hoverStyle}`
     const selectedStyle = "opacity-100 bg-gray-400 bg-opacity-70"
 
     function handleSelect() {

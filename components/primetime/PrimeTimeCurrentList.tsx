@@ -1,5 +1,8 @@
 import Image from 'next/image'
-import { PrimeTimeList as PrimeTimeListInterface } from '../../ts/interface/primeTimeList'
+import { HiOutlineTrash } from 'react-icons/hi'
+//ts
+import { PrimeTimeList as PrimeTimeListInterface } from '@ts/interface/primeTimeList'
+//helper
 import { isEmpty } from '@/utility/isEmpty'
 import { isNotEmpty } from '@/utility/isNotEmpty'
 
@@ -35,9 +38,13 @@ function PrimeTimeIcon(props: any) {
 }
 
 function ResetIcon(props: any) {
+    const scale = 'transform scale-90'
+    const position = 'flex justify-center items-center ml-1'
+    const dimension = 'h-10 w-10 rounded-sm overflow-hide'
+    const hover = 'hover:scale-100'
     return (
-        <div className="flex justify-center items-center h-10 w-10 rounded-sm bg-gray-200 text-sm" onClick={() => props.handleReset()}>
-            Reset
+        <div className={`${scale} ${position} ${dimension} ${hover} bg-gray-200`} onClick={() => props.handleReset()}>
+            <HiOutlineTrash />
         </div>
     )
 }
