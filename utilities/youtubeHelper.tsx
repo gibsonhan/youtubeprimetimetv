@@ -20,6 +20,14 @@ export async function authenticate() {
     return auth
 }
 
+export function getVideoPromise(channel_id: string) {
+    const apiKey = 'key=AIzaSyD0IA4HnjdbmHGDl9_Q9fY0mlbTB_VzxRs'
+    const channelId = `channelId=${channel_id}`
+    const maxResults = 'maxResults=1'
+    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&${channelId}&${maxResults}&${apiKey}`
+    return fetch(url)
+}
+
 // Make sure the client is loaded and sign-in is complete before calling this method.
 export async function loadSubscription(pageToken?: string): Promise<Subscription> {
     let data: any = {}

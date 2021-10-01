@@ -56,8 +56,6 @@ function UpdatePrimeTimeModal(props: any) {
         }, 0)
     }
 
-
-
     useEffect(() => {
         if (isNotEmpty(subscriptions)) setMySubList(subscriptions)
     }, [subscriptions])

@@ -2,13 +2,16 @@ import { useState } from "react"
 //components
 import Button from "@/components/common/Button"
 import UpdatePrimeTimeModal from "./UpdatePrimeTimeModal"
+import { useRouter } from "next/router"
 
 function UpdateSubscriptions(props: any) {
     const { id, subscriptions, title } = props
     const [isVisible, setIsVisible] = useState(false)
+    const router = useRouter()
 
-    function handleIsVisible(bool: boolean) {
-        setIsVisible(bool)
+    function handleOnClose() {
+        setIsVisible(false)
+        router.reload()
     }
 
     return (
@@ -17,13 +20,13 @@ function UpdateSubscriptions(props: any) {
                 title='Update Subscriptions'
                 isVisible={true}
                 disable={false}
-                handleClick={() => handleIsVisible(true)}
+                handleClick={() => setIsVisible(true)}
             />
             <UpdatePrimeTimeModal
                 id={id}
                 isVisible={isVisible}
                 subscriptions={subscriptions}
-                handleOnClose={() => handleIsVisible(false)}
+                handleOnClose={() => handleOnClose()}
             />
         </>
     )

@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
+import router from 'next/router'
 //components
 import DeleteBlock from '@/components/cat/DeleteBlock/DeleteBlock'
-import { default as Input } from '@/components/cat/UpdateInput/UpdateInput'
-import { default as InputTag } from '@/components/cat/UpdateInput/UpdateInputTag'
+import { default as Input } from '@/components/updateInput/UpdateInput'
+import { default as InputTag } from '@/components/updateInput/UpdateInputTag'
 import UpdateBlock from '@/components/cat/UpdateSubscriptions/UpdateSubscriptions'
 import { default as CurrentSubscriptionList } from '@/components/primetime/PrimeTimeBlockSubscriptionList'
+import Button from '@/components/common/Button'
 
 function PrimeTimeBlock(props: any) {
     const { id, title, description, rank, shared, subscriptions, tags } = props.data
@@ -16,10 +17,6 @@ function PrimeTimeBlock(props: any) {
         { title: 'tags', type: 'text', value: tags },
         { title: 'rank', type: 'text', value: rank }
     ]
-
-    useEffect(() => {
-        console.log('what is props', props)
-    }, [props])
 
     return (
         <div className="flex flex-col items-center h-auto my-4 overflow-auto">
@@ -36,6 +33,7 @@ function PrimeTimeBlock(props: any) {
             <CurrentSubscriptionList subscriptions={subscriptions} />
             <UpdateBlock id={id} subscriptions={subscriptions} title={title} />
             <DeleteBlock id={id} />
+            <Button title="watch" disable={false} isVisible={true} handleClick={() => router.push(`/primetime/watch?block=${id}`)} />
         </div>
     )
 }
