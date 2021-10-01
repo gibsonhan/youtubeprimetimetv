@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 //util
-import { getVideoPromise } from "@/utility/youtubeHelper"
+import { getVideoList, getVideoPromise } from "@/utility/youtubeHelper"
 import { isEmpty } from "@/utility/isEmpty"
 import { isNotEmpty } from "@/utility/isNotEmpty"
 
@@ -31,7 +31,19 @@ export default function Watch(props: any) {
 
     async function generatePrimeTime() {
         const videoPromise = subList.map((ele: any) => getVideoPromise(ele.channelId))
-        Promise.all(videoPromise).then((value: any) => setPrimeTime(value))
+        const result = await Promise.all(videoPromise)
+        console.log('result', result)
+        //const videoIds = await videoIdToString(result)
+        //const videoList = await getVideoList(videoIds)
+        //setPrimeTime(videoList)
+    }
+
+    async function videoIdToString(data: any) {
+        let string = ''
+        data.forEach((ele: any) => {
+            //string += ele.items[0].videoId + '%'
+        })
+        return string.slice(0, -1)
     }
 
     return (

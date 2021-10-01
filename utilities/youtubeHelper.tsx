@@ -1,4 +1,5 @@
-import { Subscription } from "../ts/interface/youtubeHelper";
+import { Subscription } from 'ts/interface/youtubeHelper'
+const apiKey = 'key=AIzaSyD0IA4HnjdbmHGDl9_Q9fY0mlbTB_VzxRs'
 //https://stackoverflow.com/questions/56457935/typescript-error-property-x-does-not-exist-on-type-window
 declare global {
     interface Window {
@@ -21,11 +22,18 @@ export async function authenticate() {
 }
 
 export function getVideoPromise(channel_id: string) {
-    const apiKey = 'key=AIzaSyD0IA4HnjdbmHGDl9_Q9fY0mlbTB_VzxRs'
     const channelId = `channelId=${channel_id}`
     const maxResults = 'maxResults=1'
     const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&${channelId}&${maxResults}&${apiKey}`
     return fetch(url)
+}
+
+export async function getVideoList(videoIds: string) {
+    const videoId = `videoId=${videoIds}`
+    const baseUrl = `https://youtube.googleapis.com/youtube/v3/videos?part=CcontentDetails&${videoId}&${apiKey}`
+    const response = await fetch(baseUrl)
+    const result = response.json()
+    return result
 }
 
 // Make sure the client is loaded and sign-in is complete before calling this method.
