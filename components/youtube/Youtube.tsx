@@ -20,6 +20,7 @@ function Youtube(props: any) {
     async function getSubscription(token: string = '') {
         try {
             let data: any = await loadSubscription(token)
+            console.log('data', data)
             setSubscription(data)
         }
         catch (error) {

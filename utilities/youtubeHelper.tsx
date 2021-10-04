@@ -99,3 +99,24 @@ export async function initYoutubeClient() {
         }
     });
 }
+
+export async function getUploadId(channelIdQuery: string) {
+    const id = `id=${channelIdQuery}`
+    const maxResults = 'maxResults=1'
+    const url = `https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&${id}&${maxResults}&${apiKey}`
+
+    const response = await fetch(url)
+    const { items } = await response.json()
+
+    return items.map((ele: any) => ({ channelId: ele.id, uploadId: ele.contentDetails.relatedPlaylists.uploads }))
+}
+
+
+export async function getPlayList(uploadId: string) {
+    const playlistId = `playlistId=${uploadId}`
+    const maxResult = 'maxResults=5'
+    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&${maxResult}&${playlistId}&${apiKey}`
+
+    const response = await fetch(url)
+    return await response.json()
+}
