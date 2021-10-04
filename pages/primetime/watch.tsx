@@ -4,12 +4,13 @@ import { useEffect, useState } from "react"
 //util
 import { isEmpty } from "@/utility/isEmpty"
 import { getPlayList, getUploadId } from "@/utility/youtubeHelper"
+import { isNotEmpty } from "@/utility/isNotEmpty"
+import YoutubePlayer from "@/components/youtube/YoutubePlayer"
 //youtube
 
 export default function Watch() {
     const { query } = useRouter()
     const [subList, setSubList] = useState([])
-    const [uploadId, setUploadId] = useState([])
     const [primeTime, setPrimeTime] = useState([])
 
     //fetch subscription list
@@ -20,32 +21,35 @@ export default function Watch() {
             const pid = query.block
             const response: any = await fetch(`/api/primetime/${pid}`)
             const data = await response.json()
-            console.log(data)
             setSubList(data.subscriptions)
         }
-
         getSubscriptionList()
+
     }, [query])
 
     async function getUploadIdList() {
         const channelId = subList.map((ele: any) => ele.channelId)
         const channelIdQuery = channelId.toString()
-        const result = await getUploadId(channelIdQuery)
-        setUploadId(result)
+        return await getUploadId(channelIdQuery)
     }
 
     async function getAllUpload() {
-        let promiseArr = uploadId.map((ele: any) => getPlayList(ele.uploadId))
-        let result: any = await Promise.all(promiseArr)
+        const uploadId: any = await getUploadIdList()
+        const promiseArr = uploadId.map((ele: any) => getPlayList(ele.uploadId))
+        const result: any = await Promise.all(promiseArr)
         setPrimeTime(result)
     }
 
+    useEffect(() => {
+        if (isEmpty(subList)) return
+        if (isNotEmpty(primeTime)) return
+        getAllUpload()
+    }, [subList])
+
     return (
         <div className='flex flex-col'>
-            <div>Hello</div>
-            <button onClick={() => getUploadIdList()}>uploads</button>
-            <br></br>
             <button onClick={() => getAllUpload()}>Playlist</button>
+            <YoutubePlayer videoList={primeTime} />
         </div>
     )
 }
