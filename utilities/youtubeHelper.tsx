@@ -118,5 +118,7 @@ export async function getPlayList(uploadId: string) {
     const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&${maxResult}&${playlistId}&${apiKey}`
 
     const response = await fetch(url)
-    return await response.json()
+    const result = await response.json()
+
+    return result
 }

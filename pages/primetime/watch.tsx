@@ -46,9 +46,12 @@ export default function Watch() {
         getAllUpload()
     }, [subList])
 
+    useEffect(() => {
+        console.log('primetTime', primeTime)
+    }, [primeTime])
+
     return (
         <div className='flex flex-col'>
-            <button onClick={() => getAllUpload()}>Playlist</button>
             <YoutubePlayer videoList={primeTime} />
         </div>
     )
