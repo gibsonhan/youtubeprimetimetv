@@ -1,6 +1,10 @@
-import { isEmpty } from "@/utility/isEmpty";
 import Script from "next/script"
 import { useEffect, useRef, useState } from "react";
+//components
+import { default as Layout } from '@/components/youtube/YoutubePlayerLayout'
+import { default as Button } from "@/components/youtube/YoutubePlayerButton";
+//util
+import { isEmpty } from "@/utility/isEmpty";
 
 export default function YoutubePlayer(props: any) {
     const [isYTIframeLoaded, setIsYTIframeLoaded] = useState(false)
@@ -32,7 +36,7 @@ export default function YoutubePlayer(props: any) {
 
     function updateIndex(type: string) {
         const lastIndex = videoQueSize - 1;
-        (type === 'increment')
+        (type === 'next')
             ? setVideoQueIndex((index: any) => ((index === lastIndex) ? 0 : index + 1))
             : setVideoQueIndex((index: any) => ((index === 0) ? lastIndex : index - 1))
     }
@@ -104,6 +108,17 @@ export default function YoutubePlayer(props: any) {
         //return () => playerRef.current.destory()
     }, [isYTIframeLoaded])
 
+    const Content = {
+        top: <Button type='top' handleOnClick={() => updateIndex('next')} />,
+        bottom: <Button type='bottom' handleOnClick={() => updateIndex('prev')} />,
+        right: <Button type='right' handleOnClick={() => updatePlaylistVideo('next')} />,
+        left: <Button type='left' handleOnClick={() => updatePlaylistVideo('prev')} />,
+        main: <iframe id="youtube_iframe_player"
+            width="640" height="360"
+            src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1"
+            frameBorder="1"
+        />
+    }
 
     return (
         <div className='flex flex-col'>
@@ -115,15 +130,13 @@ export default function YoutubePlayer(props: any) {
                     setIsYTIframeLoaded(true)
                 }}
             />
-            <button onClick={() => updateIndex('increment')}>Next Youtuber</button>
-            <button onClick={() => updateIndex('decrement')}>Previous Youtuber</button>
-            <button onClick={() => updatePlaylistVideo('Next')}>Next Video</button>
-            <button onClick={() => updatePlaylistVideo('Prev')}>Next Previous</button>
-            <iframe id="youtube_iframe_player"
-                width="640" height="360"
-                src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1"
-                frameBorder="1"
-            ></iframe>
+            <Layout
+                top={Content['top']}
+                right={Content['right']}
+                main={Content['main']}
+                bottom={Content['bottom']}
+                left={Content['left']}
+            />
         </div>
     )
 }

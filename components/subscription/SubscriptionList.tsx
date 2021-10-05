@@ -68,12 +68,12 @@ function FloatingButton(props: any) {
     const { type, disable, getSubscription } = props
     //position
     const fixedDirection = type === 'left' ? 'left-0' : 'right-0'
-    const position = 'flex flex-col fixed z-50 items-center justify-center' + ' ' + 'bottom-2/4' + ' ' + fixedDirection
+    const position = `flex flex-col fixed z-50 items-center justify-centers bottom-2/4 ${fixedDirection}`
     //box shape and style
     const scale = 'transform scale-100'
     const height = 'h-8'
     const width = 'w-8'
-    const shape = 'm-1' + ' ' + height + ' ' + width + ' ' + 'rounded-lg'
+    const shape = `m-1 ${height} ${width} rounded-lg`
     //visual 
     const shadow = 'shadow-lg'
     const opacity = 'opacity-60'
@@ -89,12 +89,17 @@ function FloatingButton(props: any) {
         getSubscription()
     }
 
+    const ReactIcon = {
+        left: <AiFillCaretLeft />,
+        right: <AiFillCaretRight />
+    }
+
     return (
         <div
-            className={scale + ' ' + position + ' ' + shape + ' ' + color + ' ' + opacity + ' ' + shadow + ' ' + hover}
+            className={`${scale} ${position} ${shape} ${color} ${opacity} ${shadow} ${hover}`}
             onClick={handleOnClick}
         >
-            {type === 'left' ? <AiFillCaretLeft /> : <AiFillCaretRight />}
+            {ReactIcon[type]}
         </div>
     )
 }
