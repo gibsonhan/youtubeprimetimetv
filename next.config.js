@@ -3,7 +3,7 @@ module.exports = {
   async redirects() {
     return [{
       source: '/',
-      destination: '/primetime/all',
+      destination: '/landing',
       permanent: true,
     }]
   },
