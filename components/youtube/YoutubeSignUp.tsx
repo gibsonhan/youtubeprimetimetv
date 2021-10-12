@@ -1,7 +1,10 @@
 import Head from "next/head"
 import Script from 'next/script'
+import { useEffect, useRef } from "react"
 
-export default function YoutubeSignIn() {
+export default function YoutubeSignUp() {
+    const gSignUpRef = useRef()
+    console.log(gSignUpRef)
     return (
         <>
             <Head>
@@ -24,7 +27,7 @@ export default function YoutubeSignIn() {
                             },
                             body: JSON.stringify(data)
                         }
-                        const response = await fetch('/api/user/signin', reqObject)
+                        const response = await fetch('/api/user/signup', reqObject)
                         const result = await response.json()
                         console.log(result)
                     }
@@ -32,7 +35,7 @@ export default function YoutubeSignIn() {
                         console.log(error);
                     }
                     function renderButton() {
-                        window.gapi.signin2.render('g-signin2', {
+                        window.gapi.signin2.render('g-signup2', {
                             'scope': 'email',
                             'width': 240,
                             'height': 50,
@@ -46,7 +49,7 @@ export default function YoutubeSignIn() {
                     renderButton()
                 }}
             />
-            <div id="g-signin2" />
+            <div id="g-signup2" ref={gSignUpRef} />
         </>
     )
 }

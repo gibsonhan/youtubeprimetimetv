@@ -1,4 +1,5 @@
 import YoutubeSignIn from "@/components/youtube/YoutubeSignIn"
+import YoutubeSignUp from "@/components/youtube/YoutubeSignUp"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
@@ -12,7 +13,7 @@ export default function Landing() {
 
     return (
         <div className="flex flex-col justify-center items-center">
-            <YoutubeSignIn />
+            <YoutubeSignUp />
         </div>
     )
 }
