@@ -3,7 +3,8 @@ import { isEmpty } from '@/utility/isEmpty'
 import Carousel from '@/components/gesture/Carousel'
 
 function PrimeTimePreviewList(props: any) {
-    const list: [] = props.primeTimes
+    const list: [] = props.primeTimes || []
+    if (isEmpty(list)) return <></>
     return (
         <div className="flex flex-col h-full max-w-auto bg-black">
             {

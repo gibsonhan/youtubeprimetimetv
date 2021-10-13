@@ -25,19 +25,13 @@ export default function SignIn() {
             body: JSON.stringify(data)
         }
 
-        try {
-            const response = await fetch('/api/user/signin', reqObj)
-            const result = await response.json()
-            if (!!result) router.push('/primetime/all')
-            //todo sett access token
-        }
-        catch (error) {
-            console.log('Failed To Login')
-        }
+        const response = await fetch('/api/user/signin', reqObj)
+        const result = await response.json()
+        if (!result.error) router.push('/primetime/all')
     }
 
     return (
-        <div>
+        <div className='flex flex-col flex-auto justify-center items-center'>
             <YoutubeSignIn />
             <Input
                 title='username'

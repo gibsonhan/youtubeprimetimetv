@@ -11,14 +11,13 @@ export default async (req: any, res: any) => {
         },
         body: JSON.stringify({ username, password, tokenId }),
     }
-    console.log(url, reqObj)
+
     try {
         const response = await fetch(url, reqObj)
         const result = await response.json()
-        console.log('what is result', result)
         res.status(201).json(result)
     }
     catch (error) {
-        res.status(500)
+        res.status(500).json(error)
     }
 }
