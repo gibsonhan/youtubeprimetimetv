@@ -1,5 +1,12 @@
 function Input(props: any) {
-    const { title, type, inputValue, setInputValue, handleBlur, handleKeyPress } = props
+    const {
+        title,
+        type,
+        inputValue,
+        setInputValue,
+        handleBlur,
+        handleKeyPress
+    } = props
 
     const handleOnChange = (e: any) => {
         e.preventDefault()

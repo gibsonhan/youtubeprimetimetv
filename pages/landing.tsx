@@ -1,19 +1,25 @@
-import YoutubeSignIn from "@/components/youtube/YoutubeSignIn"
-import YoutubeSignUp from "@/components/youtube/YoutubeSignUp"
+import Button from "@/components/common/Button"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
 
 export default function Landing() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
     const router = useRouter()
-
-    useEffect(() => {
-        if (isLoggedIn) router.push('/primetime/all')
-    }, [])
+    const handleSignIn = () => router.push('/signin')
+    const handleSignUp = () => router.push('/signup')
 
     return (
-        <div className="flex flex-col justify-center items-center">
-            <YoutubeSignUp />
+        <div className="flex flex-col flex-auto justify-end items-center mb-10">
+            <Button
+                title='Sign In'
+                disable={false}
+                isVisible={true}
+                handleClick={handleSignIn}
+            />
+            <Button
+                title='Sign Up'
+                disable={false}
+                isVisible={true}
+                handleClick={handleSignUp}
+            />
         </div>
     )
 }

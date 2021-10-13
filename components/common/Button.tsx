@@ -9,18 +9,19 @@ const Button = React.forwardRef((props: ButtonInterface, ref: any) => {
         isVisible,
     } = props
 
-    const handleOnClick = (e: any) => {
+    const handleOnClick = async (e: any) => {
         e.preventDefault()
         if (disable) {
             return
         }
-        handleClick()
+        await handleClick()
     }
 
     const baseStyle = 'flex flex-col items-center justify-center h-12 w-48 min-w-min my-4 p-4 rounded-md'
     const activeStyle = 'bg-green-300 hover:cursor-pointer'
     const disableStyle = 'bg-gray-300 hover:cursor-no-allowed'
-    const style = `${baseStyle} ` + `${disable ? disableStyle : activeStyle}`
+    const active = 'active:bg-green-700'
+    const style = `${baseStyle} ${active} ` + `${disable ? disableStyle : activeStyle}`
 
     if (!isVisible) {
         return <></>

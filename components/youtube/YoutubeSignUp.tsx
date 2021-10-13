@@ -1,10 +1,9 @@
 import Head from "next/head"
+import { useRouter } from "next/router"
 import Script from 'next/script'
-import { useEffect, useRef } from "react"
 
 export default function YoutubeSignUp() {
-    const gSignUpRef = useRef()
-    console.log(gSignUpRef)
+    const router = useRouter()
     return (
         <>
             <Head>
@@ -29,7 +28,7 @@ export default function YoutubeSignUp() {
                         }
                         const response = await fetch('/api/user/signup', reqObject)
                         const result = await response.json()
-                        console.log(result)
+                        router.push('/signin')
                     }
                     function onFailure(error: any) {
                         console.log(error);
@@ -47,9 +46,10 @@ export default function YoutubeSignUp() {
                     }
 
                     renderButton()
+
                 }}
             />
-            <div id="g-signup2" ref={gSignUpRef} />
+            <div id="g-signup2" />
         </>
     )
 }

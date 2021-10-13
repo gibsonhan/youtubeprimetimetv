@@ -1,7 +1,9 @@
 import Head from "next/head"
+import { useRouter } from "next/router"
 import Script from 'next/script'
 
 export default function YoutubeSignIn() {
+    const router = useRouter()
     return (
         <>
             <Head>
@@ -10,7 +12,7 @@ export default function YoutubeSignIn() {
             <Script
                 src='https://apis.google.com/js/platform.js'
                 strategy="beforeInteractive"
-                onLoad={() => {
+                onLoad={async () => {
                     async function onSuccess(googleUser: any) {
                         const id_token = googleUser.getAuthResponse().id_token
                         console.log('id token', id_token)
@@ -26,7 +28,7 @@ export default function YoutubeSignIn() {
                         }
                         const response = await fetch('/api/user/signin', reqObject)
                         const result = await response.json()
-                        console.log(result)
+                        if (!result) router.push('/primetime/all')
                     }
                     function onFailure(error: any) {
                         console.log(error);

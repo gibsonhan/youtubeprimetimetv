@@ -1,21 +1,24 @@
-const url = 'http://localhost:3001/auth/google/signin'
+const googleUrl = 'http://localhost:3001/auth/google/signin'
+const regularUrl = 'http://localhost:3001/auth/signin'
 
 export default async (req: any, res: any) => {
+    const { type, username, password, tokenId } = req.body
+    const url = type === 'regular' ? regularUrl : googleUrl
     const reqObj = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(req.body),
+        body: JSON.stringify({ username, password, tokenId }),
     }
-
+    console.log(url, reqObj)
     try {
         const response = await fetch(url, reqObj)
         const result = await response.json()
-        res.status(2001).json(result)
+        console.log('what is result', result)
+        res.status(201).json(result)
     }
     catch (error) {
-        console.log('failed to sign in')
         res.status(500)
     }
 }
