@@ -11,14 +11,13 @@ export default async (req: any, res: any) => {
     const url = type === 'regular' ? regularUrl : googleUrl
     try {
         let response = await fetch(url, {
-
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({ username, password, tokenId })
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ username, password, tokenId })
         })
         console.log(response)
         res.setHeader('set-cookie', 'hello=world')
@@ -26,6 +25,6 @@ export default async (req: any, res: any) => {
     }
     catch (error) {
         console.log(error)
-        res.status(500) 
+        res.status(500)
     }
 }

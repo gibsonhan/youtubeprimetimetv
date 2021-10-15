@@ -13,12 +13,11 @@ export default async (req: any, res: any) => {
     }
 
     try {
-        const response = await fetch(url, reqObj)
-        const result = await response.json()
-        res.status(201).json(result)
+        await fetch(url, reqObj)
+        res.status(201)
     }
     catch (error) {
-        console.log('failed to sign in')
+        console.log(error)
         res.status(500)
     }
 }

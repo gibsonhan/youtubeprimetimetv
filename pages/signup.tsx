@@ -1,15 +1,20 @@
+import { atom, useAtom } from 'jotai'
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //components
+import { default as AlertMessage } from '@/components/common/AlertModal';
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import YoutubeSignUp from "@/components/youtube/YoutubeSignUp";
 //util
 import isNotMatch from "@/utility/isNotMatching";
 import { isEmpty } from "@/utility/isEmpty";
+//store
+import { alertAtom } from "store/atom";
 
 export default function SignUp() {
     const router = useRouter()
+    const [_, setAlert] = useAtom(alertAtom)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
@@ -18,24 +23,26 @@ export default function SignUp() {
         const data = {
             username,
             password,
-            type: 'regular'
-        }
-
-        const reqObj = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
         }
 
         try {
-            const response = await fetch('/api/user/signup', reqObj)
-            if (!response) router.push('/signin')
+            const response = await fetch('http://localhost:3001/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            }
+            )
+            const result = await response.json()
+            if (result.error) setAlert(result.message)
+            if (result?.statusCode(201)) router.push('/signin')
         }
         catch (error) {
-            console.log('Failed To Sign Up')
+            console.log(error)
         }
+        console.log('end')
     }
 
     return (
@@ -63,7 +70,8 @@ export default function SignUp() {
                 title='Sign Up'
                 disable={isNotMatch(password, password2) || isEmpty(username)}
                 isVisible={true}
-                handleClick={handleSignUp} />
+                handleClick={handleSignUp}
+            />
         </div>
     )
 }

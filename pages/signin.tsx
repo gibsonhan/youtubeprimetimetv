@@ -1,12 +1,15 @@
+import { useAtom } from 'jotai'
 import { useRouter } from "next/router";
 import { useState } from "react";
 //components
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import YoutubeSignIn from "@/components/youtube/YoutubeSignIn";
+import { alertAtom } from "store/atom";
 
 export default function SignIn() {
     const router = useRouter()
+    const [errorMessage, setErrorMessage] = useAtom(alertAtom)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -15,9 +18,9 @@ export default function SignIn() {
         const data = {
             username,
             password,
-            type:'regular'
+            type: 'regular'
         }
-        const response = await fetch(baseUrl,  {
+        const response = await fetch(baseUrl, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -26,12 +29,12 @@ export default function SignIn() {
             credentials: 'include',
             body: JSON.stringify(data)
         })
-     
-        try{
+
+        try {
             const result = await response
             if (result) router.push('/primetime/all')
         }
-        catch(error){
+        catch (error) {
             console.error(error)
         }
     }

@@ -31,6 +31,9 @@
       "@/utility/*": [
         "utilities/*"
       ],
+      "@store/*": [
+        "store/*" //to do. figure out why this isnt working
+      ],
       "@ts/*": [
         "ts/*"
       ],
