@@ -11,23 +11,29 @@ export default function SignIn() {
     const [password, setPassword] = useState('')
 
     async function handleSignIn() {
+        const baseUrl = 'http://localhost:3001/auth/signin'
         const data = {
             username,
             password,
-            type: 'regular'
+            type:'regular'
         }
-
-        const reqObj = {
+        const response = await fetch(baseUrl,  {
             method: 'POST',
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify(data)
+        })
+     
+        try{
+            const result = await response
+            if (result) router.push('/primetime/all')
         }
-
-        const response = await fetch('/api/user/signin', reqObj)
-        const result = await response.json()
-        if (!result.error) router.push('/primetime/all')
+        catch(error){
+            console.error(error)
+        }
     }
 
     return (
