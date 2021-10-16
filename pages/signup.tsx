@@ -2,7 +2,6 @@ import { atom, useAtom } from 'jotai'
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 //components
-import { default as AlertMessage } from '@/components/common/AlertModal';
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import YoutubeSignUp from "@/components/youtube/YoutubeSignUp";
@@ -20,29 +19,25 @@ export default function SignUp() {
     const [password2, setPassword2] = useState('')
 
     async function handleSignUp() {
-        const data = {
-            username,
-            password,
-        }
-
         try {
-            const response = await fetch('http://localhost:3001/auth/signup', {
+            const res = await fetch('http://localhost:3001/auth/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 credentials: 'include',
-                body: JSON.stringify(data)
-            }
-            )
-            const result = await response.json()
-            if (result.error) setAlert(result.message)
-            if (result?.statusCode(201)) router.push('/signin')
+                body: JSON.stringify({ username, password })
+            })
+
+            if (res.ok) router.push('/signin')
+
+            const { error, message } = await res.json()
+            throw `${error}: ${message}`
+
+        } catch (error: any) {
+            setAlert(error)
         }
-        catch (error) {
-            console.log(error)
-        }
-        console.log('end')
+
     }
 
     return (

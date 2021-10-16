@@ -1,9 +1,13 @@
+import { useAtom } from 'jotai'
 import Head from "next/head"
 import { useRouter } from "next/router"
 import Script from 'next/script'
+//store
+import { alertAtom } from "store/atom"
 
 export default function YoutubeSignUp() {
     const router = useRouter()
+    const [_, setAlert] = useAtom(alertAtom)
     return (
         <>
             <Head>
@@ -14,24 +18,29 @@ export default function YoutubeSignUp() {
                 strategy="beforeInteractive"
                 onLoad={() => {
                     async function onSuccess(googleUser: any) {
-                        const id_token = googleUser.getAuthResponse().id_token
-                        console.log('id token', id_token)
-                        const data = {
-                            idToken: id_token,
+                        const idToken = googleUser.getAuthResponse().id_token
+                        const url = 'http://localhost:3001/auth/google/signup'
+                        try {
+                            const res = await fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ idToken: idToken })
+                            })
+                            if (res.ok) router.push('/signin');
+                            else {
+                                const { message } = await res.json()
+                                throw `${message}`
+                            }
                         }
-                        const reqObject = {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(data)
+                        catch (error: any) {
+                            setAlert(error)
                         }
-                        const response = await fetch('/api/user/signup', reqObject)
-                        const result = await response.json()
-                        router.push('/signin')
+
                     }
                     function onFailure(error: any) {
-                        console.log(error);
+                        setAlert('Failed to Sign Up with Google')
                     }
                     function renderButton() {
                         window.gapi.signin2.render('g-signup2', {
@@ -46,10 +55,9 @@ export default function YoutubeSignUp() {
                     }
 
                     renderButton()
-
                 }}
             />
-            <div id="g-signup2" />
+            <div id="g-signup2" className="mb-12" />
         </>
     )
 }
