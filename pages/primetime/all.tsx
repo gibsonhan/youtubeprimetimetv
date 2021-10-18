@@ -1,16 +1,13 @@
 import CreateNewBlock from "@/components/cat/CreateNewBlock/CreateNewBlock";
 import PrimeTimePreviewList from '@/components/primetime/PrimeTimePreviewList';
+import { isNotEmpty } from "@/utility/isNotEmpty";
 import { useEffect } from "react";
 import { AiOutlineConsoleSql } from "react-icons/ai";
 //helpers
 
 function All(props: any) {
     const primeTimes = props.data.primeTimes
-    console.log(document?.cookie)
-    useEffect(() => {
-        console.log(props)
-    }, [props])
-    if (!!primeTimes?.message) return null
+    if (!!primeTimes.data?.message) return null
     return (
         <div className='flex flex-col items-center'>
             <PrimeTimePreviewList primeTimes={primeTimes} />
@@ -21,9 +18,10 @@ function All(props: any) {
 
 export async function getServerSideProps(context: any) {
     const cookie = context.req ? context.req.headers.cookie : undefined
-    console.log('what is cookie', cookie)
-    const accessToken = cookie.split('=')[1]
-
+    const accessToken = cookie
+        .split('; ')
+        .find((row: string) => row.startsWith('accessToken='))
+        ?.split('=')[1]
     const response = await fetch('http://localhost:3001/primetime', {
         method: 'GET',
         headers: {
@@ -39,7 +37,7 @@ export async function getServerSideProps(context: any) {
 
     return {
         props: {
-            data: { result }
+            data: { primeTimes: result }
         }
     }
 }

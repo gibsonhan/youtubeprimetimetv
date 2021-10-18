@@ -8,14 +8,23 @@ function DeleteBlockModal(props: any) {
     const pid = router.query.pid
 
     async function handleDelete() {
+        const accessToken = document.cookie
+            .split('; ')
+            .find((row: string) => row.startsWith('accessToken='))
+            ?.split('=')[1];
         try {
-            const resObject = {
-                method: 'Delete',
-            }
-            await fetch(`/api/primetime/${pid}`, resObject).then(() => router.push('/primetime/all'))
+            const res = await fetch(`http://localhost:3001/primetime/${pid}`, {
+                method: 'DELETE',
+                headers: {
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                credentials: 'include',
+            })
+            if (res.ok) router.push('/primetime/all')
         }
         catch (error) {
-            console.log('Failed to Delete', error)
+            console.log('Failed to Delete')
         }
     }
     return (

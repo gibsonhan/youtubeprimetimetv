@@ -14,7 +14,7 @@ export default function AlertModal(props: any) {
     const handleClose = async () => setShowModal(() => false && setMesage(''))
 
     useEffect(() => {
-        console.log('message', message);
+        console.log('message', message, showModal);
         if (isNotEmpty(message)) setShowModal(true)
     }, [message])
 

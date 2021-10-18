@@ -20,22 +20,24 @@ function UpdateInputTag(props: any) {
             return
         }
 
-        const data: any = {
-            id,
-            [title]: formatTagsForServer(inputValue)
-        }
-
-        const resObject = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }
+        const accessToken = document.cookie
+            .split('; ')
+            .find((row: string) => row.startsWith('accessToken='))
+            ?.split('=')[1]
 
         try {
-            const response = await fetch(`/api/primetime/${id}}`, resObject)
-            const result = await response.json()
+            const res = await fetch(`http://localhost:3001/primetime/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ id, [title]: formatTagsForServer(inputValue) })
+            })
+            const result = await res.json()
             const tagsToString = formatTagsForClient(result[title])
             setDefaultValue(tagsToString)
             setInputValue(tagsToString)

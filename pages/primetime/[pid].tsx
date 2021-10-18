@@ -1,16 +1,21 @@
-import router from 'next/router'
+import router, { useRouter } from 'next/router'
 //components
+import Button from '@/components/common/Button'
 import DeleteBlock from '@/components/cat/DeleteBlock/DeleteBlock'
 import { default as Input } from '@/components/updateInput/UpdateInput'
 import { default as InputTag } from '@/components/updateInput/UpdateInputTag'
-import UpdateBlock from '@/components/cat/UpdateSubscriptions/UpdateSubscriptions'
 import { default as CurrentSubscriptionList } from '@/components/primetime/PrimeTimeBlockSubscriptionList'
-import Button from '@/components/common/Button'
+import UpdateBlock from '@/components/cat/UpdateSubscriptions/UpdateSubscriptions'
+import { useEffect } from 'react'
 
 function PrimeTimeBlock(props: any) {
-    const { id, title, description, rank, shared, subscriptions, tags } = props.data
+    const router = useRouter()
+    const { pid } = router.query
+    useEffect(() => { console.log(props) }, [])
+    //const numSubscription = subscriptions.length
+    if (!!props.data.message) return <></>
+    const { id, title, description, tags, rank, subscriptions } = props.data
     const numSubscription = subscriptions.length
-
     const inputTable = [
         { title: 'title', type: 'text', value: title },
         { title: 'description', type: 'text', value: description },
@@ -22,8 +27,7 @@ function PrimeTimeBlock(props: any) {
         <div className="flex flex-col items-center h-auto my-4 overflow-auto">
             {
                 inputTable.map((ele, index) => {
-                    const { title } = ele
-                    return (title === 'tags')
+                    return (ele.title === 'tags')
                         ? <InputTag key={index} id={id} {...ele} />
                         : <Input key={index} id={id} {...ele} />
 
@@ -38,27 +42,30 @@ function PrimeTimeBlock(props: any) {
     )
 }
 
-export async function getStaticPaths() {
-    //Need to write api & graph ql to only fetch Id resource.
-    const response = await fetch('http://localhost:3000/api/primetime')
-    const result = await response.json()
+export async function getServerSideProps(ctx: any) {
+    const cookie = ctx.req ? ctx.req.headers.cookie : undefined
+    const { pid } = ctx.query
+    const accessToken = cookie
+        .split('; ')
+        .find((row: string) => row.startsWith('accessToken'))
+        ?.split('=')[1];
 
-    const paths = result.map((item: any) => {
-        const { id } = item
-        let path = { params: { pid: id } }
-        return path
+    const url = `http://localhost:3001/primetime/${pid}`
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
     })
+    const data: any = await res.json()
 
-    return { paths, fallback: false }
-}
-
-export async function getStaticProps({ params }: any) {
-    const response = await fetch(`http://localhost:3000/api/primetime/${params.pid}`)
-    const data = await response.json()
     return {
         props: { data }
     }
 }
 
 export default PrimeTimeBlock
-

@@ -1,10 +1,13 @@
 import PrimeTimePreviewBlock from '@/components/primetime/PrimeTimePreviewBlock'
 import { isEmpty } from '@/utility/isEmpty'
 import Carousel from '@/components/gesture/Carousel'
+import { useEffect } from 'react'
 
 function PrimeTimePreviewList(props: any) {
     const list: [] = props.primeTimes || []
-    if (isEmpty(list)) return <></>
+    useEffect(() => {
+        console.log(list)
+    }, [])
     return (
         <div className="flex flex-col h-full max-w-auto bg-black">
             {
