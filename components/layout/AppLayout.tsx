@@ -9,7 +9,7 @@ export default function AppLayout(props: any) {
         <View>
             <div className="flex flex-col h-screen justify-center items-center">
                 <AlertMessage />
-                {user && <TopNav />}
+                <TopNav />
                 <main className="flex flex-col flex-auto">{props.children}</main>
             </div>
         </View>

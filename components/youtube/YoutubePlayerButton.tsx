@@ -9,7 +9,7 @@ export default function YoutubePlayerButton(props: any) {
         left: <AiFillCaretLeft />,
     }
     const scale = 'transform scale-100'
-    const position = 'flex justify-center items-center z-40'
+    const position = 'flex justify-center items-center z-50'
     const shape = 'h-12 w-12 rounded-lg shadow-md'
     const color = 'bg-yellow-200'
     const opacity = 'opacity-50'

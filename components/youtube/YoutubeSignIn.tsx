@@ -28,6 +28,7 @@ export default function YoutubeInUp() {
                                 },
                                 body: JSON.stringify({ idToken: idToken })
                             })
+                            console.log(res)
                             if (res.ok) router.push('/signin');
                             else {
                                 const { error, message } = await res.json();

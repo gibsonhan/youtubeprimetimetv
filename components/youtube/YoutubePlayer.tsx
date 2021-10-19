@@ -15,18 +15,17 @@ export default function YoutubePlayer(props: any) {
 
     function play() {
         if (!playerRef.current) return
-        playerRef.current.playVideo()
+        playerRef.current?.playVideo()
     }
 
     function stop() {
         if (!playerRef.current) return
-        playerRef.current.stopVideo()
+        playerRef.current?.stopVideo()
     }
 
     async function loadVideos() {
         let videoQue = props.videoList.map((ele: any) => {
-            let array = ele.items.map((item: any) => item.snippet.resourceId.videoId)
-            return array
+            return ele.items.map((item: any) => item.snippet.resourceId.videoId)
         })
         setVideoQueSize(videoQue.length)
         setVideoQue(videoQue)
@@ -34,7 +33,8 @@ export default function YoutubePlayer(props: any) {
 
     async function loadQue() {
         if (!playerRef.current) return
-        playerRef.current.cuePlaylist(videoQue[videoQueIndex])
+        playerRef.current?.cuePlaylist(videoQue[videoQueIndex])
+        playerRef.current?.setLoop(true)
     }
 
     function updateIndex(type: string) {
@@ -47,12 +47,35 @@ export default function YoutubePlayer(props: any) {
     function updatePlaylistVideo(type: string) {
         if (!playerRef.current) return
         (type === 'next')
-            ? playerRef.current.nextVideo('loop')
-            : playerRef.current.previousVideo('loop')
+            ? playerRef.current?.nextVideo()
+            : playerRef.current?.previousVideo()
     }
 
     useEffect(() => {
-        console.log('hello', props.vidoeList)
+        setIsYTIframeLoaded(true)
+        window.YT.ready(function () {
+            playerRef.current = new window.YT.Player('youtube_iframe_player', {
+                height: '390',
+                width: '640',
+                videoId: 'M7lc1UVf-VE',
+                playerRefVars: {
+                    'playsinline': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': () => { },
+                }
+            });
+        })
+        function onPlayerReady(event: any) {
+            event.target.playVideo();
+            event.target.setLoop(true);
+        }
+
+    }, [])
+
+    useEffect(() => {
+        console.log('what is videolist', props.videoList)
         if (isEmpty(props.videoList)) return
         loadVideos()
     }, [props.videoList])
@@ -66,6 +89,8 @@ export default function YoutubePlayer(props: any) {
         if (isEmpty(videoQue)) return
         loadQue()
     }, [videoQueIndex])
+
+
 
     const Content = {
         top: <Button type='top' handleOnClick={() => updateIndex('next')} />,
@@ -85,50 +110,6 @@ export default function YoutubePlayer(props: any) {
                 id="youtube_iframe"
                 src="https://www.youtube.com/iframe_api"
                 strategy="beforeInteractive"
-                onLoad={() => {
-                    setIsYTIframeLoaded(true)
-                    playerRef.current = new window.YT.Player('youtube_iframe_player', {
-                        height: '390',
-                        width: '640',
-                        videoId: 'M7lc1UVf-VE',
-                        playerRefVars: {
-                            'playsinline': 1
-                        },
-                        events: {
-                            'onReady': onPlayerReady,
-                            'onStateChange': onPlayerStateChange
-                        }
-                    });
-
-                    function onPlayerReady(event: any) {
-                        console.log('On Ready', event)
-                        event.target.playVideo();
-                    }
-
-                    function onPlayerStateChange(event: any) {
-                        changeBorderColor(event.data)
-                    }
-                    function changeBorderColor(playerStatus: any) {
-                        console.log('hello world', playerStatus)
-                        var color;
-                        if (playerStatus == -1) {
-                            color = "#37474F"; // unstarted = gray
-                        } else if (playerStatus == 0) {
-                            color = "#FFFF00"; // ended = yellow
-                        } else if (playerStatus == 1) {
-                            color = "#33691E"; // playing = green
-                        } else if (playerStatus == 2) {
-                            color = "#DD2C00"; // paused = red
-                        } else if (playerStatus == 3) {
-                            color = "#AA00FF"; // buffering = purple
-                        } else if (playerStatus == 5) {
-                            color = "#FF6DOO"; // video cued = orange
-                        }
-                        if (color) {
-                            document.getElementById('youtube_iframe_player').style.borderColor = color;
-                        }
-                    }
-                }}
             />
             <Layout
                 top={Content['top']}

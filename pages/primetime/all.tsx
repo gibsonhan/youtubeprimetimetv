@@ -1,8 +1,5 @@
 import CreateNewBlock from "@/components/cat/CreateNewBlock/CreateNewBlock";
 import PrimeTimePreviewList from '@/components/primetime/PrimeTimePreviewList';
-import { isNotEmpty } from "@/utility/isNotEmpty";
-import { useEffect } from "react";
-import { AiOutlineConsoleSql } from "react-icons/ai";
 //helpers
 
 function All(props: any) {
