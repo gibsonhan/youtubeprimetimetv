@@ -13,7 +13,7 @@ import {
 import useAlert from 'hook/useAlert';
 
 function Youtube(props: any) {
-    const [isYTClientLoaded, setIsYTClientLoaded] = useState(false)
+    const { isYTClientLoaded, setIsYTClientLoaded } = props
     const [subscription, setSubscription] = useState()
     const { mySubList, setMySubList } = props
     const alertMessage = useAlert()

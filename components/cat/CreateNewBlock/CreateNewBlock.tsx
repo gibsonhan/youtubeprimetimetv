@@ -11,15 +11,14 @@ import PrimeTimeCurrentList from '@/components/primetime/PrimeTimeCurrentList';
 import Youtube from "@/components/youtube/Youtube";
 //store
 import { alertAtom } from '@store/atom';
-import { isNotEmpty } from '@/utility/isNotEmpty';
 import useAlert from 'hook/useAlert';
 
 function CreateNewBlock(props: any) {
     const resetRef = useRef<Boolean>(false)
-    const [_, setAlert] = useAtom(alertAtom)
+    const alertMessage = useAlert()
+    const [isYTclientLoaded, setIsYTClientLoaded] = useState(false)
     const [isVisible, setIsVisible] = useState(false)
     const [mySublist, setMySubList] = useState<any>([])
-    const alertMessage = useAlert()
 
     function handleDeselect(id: string) {
         setMySubList((state: any) => state.filter((ele: any) => ele.channelId !== id)
@@ -61,7 +60,7 @@ function CreateNewBlock(props: any) {
             }
         }
         catch (error: any) {
-            setAlert('Failed to Save PrimeTime')
+            alertMessage.setAlert(error)
         }
     }
 
@@ -76,8 +75,8 @@ function CreateNewBlock(props: any) {
     
     const Content = {
         'top': <PrimeTimeCurrentList list={mySublist} handleDeselect={handleDeselect} handleReset={() => handleReset()}/>,
-        'main': <Youtube mySubList={mySublist} setMySubList={setMySubList} resetRef={resetRef} />,
-        'bottom': <Bottom handleSave={handleSave} handleOnClose={() => setIsVisible(false)} />
+        'main': <Youtube mySubList={mySublist} setMySubList={setMySubList} isYTClientLoaded={isYTclientLoaded} setIsYTClientLoaded={setIsYTClientLoaded} resetRef={resetRef} />,
+        'bottom': <Bottom ytClientLoaded={isYTclientLoaded} handleSave={handleSave} handleOnClose={() => setIsVisible(false)} />
     }
 
     return (
@@ -103,7 +102,7 @@ function Bottom(props: any) {
             <Button
                 title='Save'
                 isVisible={true}
-                disable={false}
+                disable={!props.ytClientLoaded}
                 handleClick={() => props.handleSave()}
             />
             <span className='mr-10'/>

@@ -1,21 +1,26 @@
+import { useRouter } from 'next/router';
 import { useAtom } from 'jotai'
 import { useEffect, useState } from "react";
 import { Modal } from "react-native";
 //component
 import Button from "@/components/common/Button";
 //helper
-import { alertAtom } from 'store/atom';
 import { isEmpty } from '@/utility/isEmpty';
+//store
+import { alertAtom } from '@store/atom';
 
 export default function AlertModal(props: any) {
+    const router = useRouter()
     const [showModal, setShowModal] = useState(false)
     const [message, setMesage] = useAtom(alertAtom)
 
-    const handleClose = () => setMesage('')
+    const handleClose = () => {
+        setMesage('')
+        if(message === 'Unauthorized') router.push('/landing') 
+    }
 
     useEffect(() => {
         (isEmpty(message)) ? setShowModal(false) : setShowModal(true)
-        console.log('what is the message', message)
     }, [message])
 
     const position = "flex flex-col flex-grow justify-center items-center"
