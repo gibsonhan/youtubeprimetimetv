@@ -5,17 +5,17 @@ import { Modal } from "react-native";
 import Button from "@/components/common/Button";
 //helper
 import { alertAtom } from 'store/atom';
-import { isNotEmpty } from '@/utility/isNotEmpty';
+import { isEmpty } from '@/utility/isEmpty';
 
 export default function AlertModal(props: any) {
     const [showModal, setShowModal] = useState(false)
     const [message, setMesage] = useAtom(alertAtom)
 
-    const handleClose = async () => setShowModal(() => false && setMesage(''))
+    const handleClose = () => setMesage('')
 
     useEffect(() => {
-        console.log('message', message, showModal);
-        if (isNotEmpty(message)) setShowModal(true)
+        (isEmpty(message)) ? setShowModal(false) : setShowModal(true)
+        console.log('what is the message', message)
     }, [message])
 
     const position = "flex flex-col flex-grow justify-center items-center"

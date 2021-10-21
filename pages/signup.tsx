@@ -1,6 +1,6 @@
-import { atom, useAtom } from 'jotai'
+import { useAtom } from 'jotai'
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 //components
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
@@ -29,11 +29,12 @@ export default function SignUp() {
                 credentials: 'include',
                 body: JSON.stringify({ username, password })
             })
-
-            if (res.ok) redirectSignIn
-
-            const { error, message } = await res.json()
-            throw `${error}: ${message}`
+            if (res.ok) {
+                console.log(res)
+                redirectSignIn()
+            } 
+            const { message } = await res.json()
+            throw `${message}`
 
         } catch (error: any) {
             setAlert(error)

@@ -6,11 +6,12 @@ import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import YoutubeSignIn from "@/components/youtube/YoutubeSignIn";
 //store
-import { alertAtom } from "store/atom";
+import { alertAtom, signedInAtom } from "@store/atom";
 
 export default function SignIn() {
     const router = useRouter()
     const [_, setAlert] = useAtom(alertAtom)
+    const [, setUserSignedIn] = useAtom(signedInAtom)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -27,7 +28,10 @@ export default function SignIn() {
                 body: JSON.stringify({ username, password })
             })
 
-            if (res.ok) router.push('/primetime/all');
+            if (res.ok) {
+                setUserSignedIn(true)
+                router.push('/primetime/all');
+            } 
             else {
                 const { error, message } = await res.json();
                 throw `${error} ${message}`
