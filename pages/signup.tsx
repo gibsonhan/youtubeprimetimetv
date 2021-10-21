@@ -17,6 +17,7 @@ export default function SignUp() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
+    const redirectSignIn = () => router.push('/signin')
 
     async function handleSignUp() {
         try {
@@ -29,7 +30,7 @@ export default function SignUp() {
                 body: JSON.stringify({ username, password })
             })
 
-            if (res.ok) router.push('/signin')
+            if (res.ok) redirectSignIn
 
             const { error, message } = await res.json()
             throw `${error}: ${message}`
@@ -39,7 +40,6 @@ export default function SignUp() {
         }
 
     }
-
     return (
         <div className='flex flex-col flex-auto justify-center items-center'>
             <YoutubeSignUp />
@@ -66,6 +66,12 @@ export default function SignUp() {
                 disable={isNotMatch(password, password2) || isEmpty(username)}
                 isVisible={true}
                 handleClick={handleSignUp}
+            />
+            <Button
+                title='Sign in'
+                disable={false}
+                isVisible={true}
+                handleClick={redirectSignIn}
             />
         </div>
     )

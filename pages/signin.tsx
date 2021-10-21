@@ -38,6 +38,10 @@ export default function SignIn() {
         }
     }
 
+    function handleCreateAccount() {
+        router.push('/signup')
+    }
+
     return (
         <div className='flex flex-col flex-auto justify-center items-center'>
             <YoutubeSignIn />
@@ -58,6 +62,11 @@ export default function SignIn() {
                 disable={false}
                 isVisible={true}
                 handleClick={handleSignIn} />
+            <Button
+                title='Create an Account'
+                disable={false}
+                isVisible={true}
+                handleClick={handleCreateAccount} />
         </div>
     )
 }
