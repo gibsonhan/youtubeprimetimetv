@@ -10,21 +10,21 @@ import {
     loadSubscription,
     initYoutubeClient,
 } from '@/utility/youtubeHelper'
+import useAlert from 'hook/useAlert';
 
 function Youtube(props: any) {
     const [isYTClientLoaded, setIsYTClientLoaded] = useState(false)
-    const [auth, setAuth] = useState({})
     const [subscription, setSubscription] = useState()
     const { mySubList, setMySubList } = props
+    const alertMessage = useAlert()
 
     async function getSubscription(token: string = '') {
         try {
             let data: any = await loadSubscription(token)
-            console.log('data', data)
             setSubscription(data)
         }
         catch (error) {
-            console.error('Failed to get subscriptions', error)
+            alertMessage.setAlert('Failed to Load Youtube Subscriptions')
         }
     }
 

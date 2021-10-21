@@ -68,7 +68,7 @@ function FloatingButton(props: any) {
     const { type, disable, getSubscription } = props
     //position
     const fixedDirection = type === 'left' ? 'left-0' : 'right-0'
-    const position = `flex flex-col fixed z-50 items-center justify-centers bottom-2/4 ${fixedDirection}`
+    const position = `flex flex-col fixed z-50 items-center justify-center bottom-2/4 ${fixedDirection}`
     //box shape and style
     const scale = 'transform scale-100'
     const height = 'h-8'

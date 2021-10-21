@@ -9,7 +9,7 @@ import { isNotEmpty } from '@/utility/isNotEmpty'
 function PrimeTimeCurrentList(props: PrimeTimeListInterface) {
     const { handleDeselect, list, handleReset } = props
     return (
-        <div className="flex flex-row flex-wrap justify-start">
+        <div className="flex flex-row flex-wrap justify-start mt-10">
             {
                 list.map((ele: any, index: number) => {
                     return <PrimeTimeIcon key={index} handleDeselect={handleDeselect} {...ele} />

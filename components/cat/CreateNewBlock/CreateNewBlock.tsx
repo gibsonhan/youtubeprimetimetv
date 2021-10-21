@@ -12,12 +12,14 @@ import Youtube from "@/components/youtube/Youtube";
 //store
 import { alertAtom } from '@store/atom';
 import { isNotEmpty } from '@/utility/isNotEmpty';
+import useAlert from 'hook/useAlert';
 
 function CreateNewBlock(props: any) {
     const resetRef = useRef<Boolean>(false)
     const [_, setAlert] = useAtom(alertAtom)
     const [isVisible, setIsVisible] = useState(false)
     const [mySublist, setMySubList] = useState<any>([])
+    const alertMessage = useAlert()
 
     function handleDeselect(id: string) {
         setMySubList((state: any) => state.filter((ele: any) => ele.channelId !== id)
@@ -71,6 +73,12 @@ function CreateNewBlock(props: any) {
             resetRef.current = false
         }, 0)
     }
+    
+    const Content = {
+        'top': <PrimeTimeCurrentList list={mySublist} handleDeselect={handleDeselect} handleReset={() => handleReset()}/>,
+        'main': <Youtube mySubList={mySublist} setMySubList={setMySubList} resetRef={resetRef} />,
+        'bottom': <Bottom handleSave={handleSave} handleOnClose={() => setIsVisible(false)} />
+    }
 
     return (
         <>
@@ -80,23 +88,10 @@ function CreateNewBlock(props: any) {
                 handleOnClose={() => setIsVisible(false)}
             >
                 <CreateLayout
-                    mySubList={
-                        <PrimeTimeCurrentList
-                            list={mySublist}
-                            handleDeselect={handleDeselect}
-                            handleReset={() => handleReset()}
-                        />}
-                    main={
-                        <Youtube
-                            mySubList={mySublist}
-                            setMySubList={setMySubList}
-                            resetRef={resetRef}
-                        />
-                    }
-                    bottom={<Bottom handleSave={handleSave} handleOnClose={() => setIsVisible(false)} />}
+                    mySubList={Content['top']}
+                    main={Content['main']} 
+                    bottom={Content['bottom']}
                 />
-
-
             </CreatePrimeTimeModal>
         </>
     )
@@ -104,13 +99,14 @@ function CreateNewBlock(props: any) {
 
 function Bottom(props: any) {
     return (
-        <div className="flex justify-center">
+        <div className="flex flex-row flex-grow justify-center items-center">
             <Button
                 title='Save'
                 isVisible={true}
                 disable={false}
                 handleClick={() => props.handleSave()}
             />
+            <span className='mr-10'/>
             <Button
                 title="Cancel"
                 isVisible={true}
