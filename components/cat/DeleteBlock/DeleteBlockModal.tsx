@@ -21,7 +21,7 @@ function DeleteBlockModal(props: any) {
                 },
                 credentials: 'include',
             })
-            if (res.ok) router.push('/primetime/all')
+            if (res.ok) router.push('/primetime')
         }
         catch (error) {
             console.log('Failed to Delete')

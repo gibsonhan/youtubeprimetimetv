@@ -4,7 +4,7 @@ module.exports = {
     return [{
       source: '/',
       destination: '/landing',
-      permanent: true,
+      permanent: false,
     }]
   },
   reactStrictMode: true,

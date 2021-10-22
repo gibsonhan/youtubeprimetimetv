@@ -30,7 +30,7 @@ export default function SignIn() {
 
             if (res.ok) {
                 setUserSignedIn(true)
-                router.push('/primetime/all');
+                router.push('/primetime');
             } 
             else {
                 const { error, message } = await res.json();

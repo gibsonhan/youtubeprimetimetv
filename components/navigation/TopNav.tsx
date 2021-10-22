@@ -10,7 +10,7 @@ import { signedInAtom } from '@store/atom'
 
 export default function TopNav() {
     const router = useRouter()
-    const handleGoHome = () => router.push('/primetime/all')
+    const handleGoHome = () => router.push('/primetime')
     const handleGoSettings = () => router.push('/settings')
     const [signedIn] = useAtom(signedInAtom)
 
