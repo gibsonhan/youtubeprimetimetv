@@ -1,3 +1,10 @@
+#What the project looks like when it's working
+
+
+https://user-images.githubusercontent.com/6041530/147391144-8f30f110-2d64-4ea1-bc33-bb641f9beb8e.mp4
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
